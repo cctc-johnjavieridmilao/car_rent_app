@@ -70,7 +70,7 @@ export default {
                 label: 'User management',
                 separator: true,
                 path: '/admin/userManagement',
-                isDisabled: true
+                isDisabled: false
             },
             {
                 icon: 'car_rental',
