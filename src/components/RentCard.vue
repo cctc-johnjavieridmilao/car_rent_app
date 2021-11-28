@@ -73,7 +73,7 @@
 
 
 <script>
-import { ref,onMounted } from 'vue';
+import { ref,onMounted, getCurrentInstance } from 'vue';
 import axios from 'axios';
 
 export default {
@@ -94,7 +94,8 @@ export default {
     setup(props) {
 
         const images_array = ref([]);
-        const url = 'http://localhost:8080/CAR_RENT/api/Home';
+        const app = getCurrentInstance();
+        const url = app.appContext.config.globalProperties.ApiUrl;
 
         function getImages() {
             const formdata = new FormData();
