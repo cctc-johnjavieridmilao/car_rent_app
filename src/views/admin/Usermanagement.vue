@@ -5,6 +5,7 @@
        <p style="font-size: 17px;">User management</p>
 
       <q-table
+        grid
         title="Users"
         :rows="rows"
         :columns="columns"

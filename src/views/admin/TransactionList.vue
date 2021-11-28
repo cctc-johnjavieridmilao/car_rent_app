@@ -20,6 +20,7 @@
     <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="pending_pickup">
                <q-table
+                 grid
                   title="Pending Transactions"
                   :rows="rows_pending"
                   :columns="columns_pending"
@@ -80,6 +81,7 @@
 
          <q-tab-panel name="sched_for_pickup">
                <q-table
+                 grid
                   title="Approved Transactions"
                   :rows="rows_approved"
                   :columns="columns_approved"
@@ -148,6 +150,7 @@
 
          <q-tab-panel name="done_transactions">
                <q-table
+                grid
                   title="Completed Transactions"
                   :rows="rows_completed"
                   :columns="columns_completed"
@@ -222,6 +225,7 @@
         <q-tab-panel name="cancelled_transactions">
            
                  <q-table
+                  grid
                   title="Cancelled Transactions"
                   :rows="rows_cancelled"
                   :columns="columns_cancelled"
