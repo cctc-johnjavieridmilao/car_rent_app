@@ -1,10 +1,10 @@
 <template>
 <div class="window-height window-width row justify-center items-center" style="background: linear-gradient(#8274C5, #5A4A9F);">
      <div class="row justify-center align-items-center">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12" style="width: 550px">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
         <q-card>
         <q-card-section class="bg-deep-purple-7 text-white">
-            <div class="text-h6">CAR RENT APP</div>
+            <div class="text-h6">Carku: Rental Vehicle</div>
             <div class="text-subtitle2">Sign-in your account here..</div>
         </q-card-section>
         <q-separator inset />

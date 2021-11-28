@@ -4,7 +4,7 @@
         <div class="col-xs-12 col-sm-12 col-md-6">
         <q-card>
         <q-card-section class="bg-deep-purple-7 text-white">
-            <div class="text-h6">CAR RENT APP</div>
+            <div class="text-h6">Carku: Rental Vehicle</div>
             <div class="text-subtitle2">Sign-up account here..</div>
         </q-card-section>
         <q-separator inset />
