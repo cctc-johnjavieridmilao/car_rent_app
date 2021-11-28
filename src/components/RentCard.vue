@@ -122,7 +122,7 @@ export default {
             slide: ref(0),
             expanded: ref(false),
             images_array,
-            upload_url: 'http://localhost:8080/CAR_RENT/api/public/uploads/'
+            upload_url: app.appContext.config.globalProperties.ApiUrl
         }
     },
 }
