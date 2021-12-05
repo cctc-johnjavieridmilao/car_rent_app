@@ -71,14 +71,14 @@ export default {
             label: 'Lists of Vehicles',
             separator: true,
             path: '/owner/vehicles',
-            isDisabled: true
+            isDisabled: false
         },
          {
             icon: 'report',
             label: 'Rent Request',
             separator: true,
             path: '/owner/rentrequest',
-            isDisabled: true
+            isDisabled: false
         },
         {
             icon: 'logout',

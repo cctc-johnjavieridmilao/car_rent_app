@@ -70,7 +70,7 @@ export default {
             label: 'Rent Vehicles',
             separator: true,
             path: '/customer/rentvehicles',
-            isDisabled: true
+            isDisabled: false
         },
         {
             icon: 'logout',

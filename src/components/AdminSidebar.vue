@@ -77,14 +77,14 @@ export default {
                 label: 'Vehicle management',
                 separator: true,
                 path: '/admin/vehicleManagement',
-                isDisabled: true
+                isDisabled: false
             },
             {
                 icon: 'report',
                 label: 'Transaction Lists',
                 separator: true,
                 path: '/admin/transactionlist',
-                isDisabled: true
+                isDisabled: false
             },
             {
                 icon: 'logout',
