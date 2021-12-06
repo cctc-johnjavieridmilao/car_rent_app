@@ -5,7 +5,7 @@ import { Quasar } from 'quasar';
 import quasarUserOptions from './quasar-user-options';
 
 const app = createApp(App);
-app.config.globalProperties.ApiUrl = 'https://www.rent-app-api.online/Home';
+app.config.globalProperties.ApiUrl = 'https://rent-app-api.online/Home';
 app.use(router);
 app.use(Quasar, quasarUserOptions);
 app.mount('#app');

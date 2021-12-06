@@ -465,7 +465,7 @@ export default {
 
     return {
       tab,
-      uploadurl: 'https://www.rent-app-api.online/Home/UploadFile',
+      uploadurl: 'https://rent-app-api.online/Home/UploadFile',
       checkFileType,
       OnVehiclerRegister,
       IsUploaded,
