@@ -465,7 +465,7 @@ export default {
 
     return {
       tab,
-      uploadurl: 'http://localhost:8080/CAR_RENT/api/Home/UploadFile',
+      uploadurl: 'https://www.rent-app-api.online/public/uploads/',
       checkFileType,
       OnVehiclerRegister,
       IsUploaded,
