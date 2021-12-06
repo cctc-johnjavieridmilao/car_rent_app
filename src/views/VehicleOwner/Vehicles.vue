@@ -465,7 +465,7 @@ export default {
 
     return {
       tab,
-      uploadurl: 'https://www.rent-app-api.online/public/uploads/',
+      uploadurl: app.appContext.config.globalProperties.ApiUrl + '/UploadFile',
       checkFileType,
       OnVehiclerRegister,
       IsUploaded,
