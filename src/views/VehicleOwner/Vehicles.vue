@@ -57,7 +57,6 @@
                 </div>
                  <div class="col-lg-12 col-md-12 col-xs-12">
                     <q-uploader
-                        :url="uploadurl"
                         label="Upload Images"
                         multiple
                         batch
@@ -65,6 +64,9 @@
                         :filter="checkFileType"
                         @uploaded="IsUploaded"
                         ref="uploader"
+                        use-chips
+                        outlined
+                        :factory="factoryFn"
                         auto-upload
                       />
                 </div>
@@ -227,10 +229,18 @@ export default {
   components: {
     OwnerSidebar
   },
+  methods: {
+    factoryFn () {
+      return {
+        url: 'https://rent-app-api.online/Home/UploadFile',
+        method: 'POST',
+      }
+    }
+  },
     setup() {
     const app = getCurrentInstance();
     const $q = useQuasar();
-    const uploaded_ids = ref(null);
+    const uploaded_ids = ref([]);
     const vname = ref(null);
     const vtype = ref(null);
     const price = ref(null);
@@ -243,10 +253,11 @@ export default {
     const filter_approved = ref('');
     const tab = ref('enroll_vehicles');
 
-    const current_pos = ref({
+     const current_pos = ref({
         lat: 0,
         lng: 0
       });
+
       const loader = new Loader({apiKey: GOOGE_MAPS_API_KEY, libraries: ['places','geometry']});
       const mapDiv = ref(null);
 
@@ -292,7 +303,7 @@ export default {
       const formdata = new FormData();
       const barRef = bar.value;
 
-      formdata.append('upload_id', uploaded_ids.value);
+      formdata.append('upload_id', uploaded_ids.value.join(','));
       formdata.append('vname', vname.value);
       formdata.append('vtype', vtype.value);
       formdata.append('price', price.value);
@@ -312,6 +323,7 @@ export default {
                 headers: { "Content-Type": "multipart/form-data" },
             })
             .then(response => {
+
                 if(response.data.msg == 'success') {
 
                     $q.notify({
@@ -337,7 +349,7 @@ export default {
     function IsUploaded(info) {
       const response = JSON.parse(info.xhr.response);
 
-      uploaded_ids.value = response.ids.join(',');
+      uploaded_ids.value.push(response.ids);
     }
 
      function getPendingVechicles() {
@@ -465,7 +477,6 @@ export default {
 
     return {
       tab,
-      uploadurl: 'https://rent-app-api.online/Home/UploadFile',
       checkFileType,
       OnVehiclerRegister,
       IsUploaded,

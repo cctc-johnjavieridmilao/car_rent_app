@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-md">
+    <div class="q-pa-md bg-grey-3">
         <AdminSidebar />
 
        <p style="font-size: 17px;">Vehicle management</p>
@@ -45,6 +45,7 @@
                   </q-td>
                   <q-td key="action" :props="props" class="q-gutter-xs">
                     <q-btn push  color="primary" :disable="props.row.status === 'FOR APPROVAL' ? false : true" rounded  label="" icon-right="find_in_page" size="sm" @click="ViewData(props.row.RecID)"/>
+                    <q-btn push  color="secondary" rounded  label="" icon-right="image" @click="ViewImages(`${props.row.images_id}`)" size="sm"/>
                 </q-td>
                 </q-tr>
               </template>
@@ -81,18 +82,26 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+     <q-dialog v-model="CarouselDialog">
+
+        <ImageCarousel :ImgesID="imagesID"/>
+      
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import AdminSidebar from '../../components/AdminSidebar.vue';
+import ImageCarousel from '../../components/ImageCarousel.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 
 export default {
     components: {
-        AdminSidebar
+        AdminSidebar,
+        ImageCarousel
     },
     setup() {
         const $q = useQuasar();
@@ -114,7 +123,9 @@ export default {
         const rows = ref([]);
         const bar = ref(null);
         const ConfirmDialog = ref(false);
+        const CarouselDialog = ref(false);
         const vehicle_id = ref(null);
+        const imagesID = ref([]);
 
         function getVehicles() {
           const barRef = bar.value;
@@ -138,6 +149,15 @@ export default {
         function ViewData(id) {
             vehicle_id.value = id;
             ConfirmDialog.value = true;
+        }
+
+        function ViewImages(images) {
+          const img = images.split(',');
+          imagesID.value = []; //reset
+          imagesID.value.push(img);
+
+          CarouselDialog.value = true;
+
         }
 
         function Approved() {
@@ -215,8 +235,11 @@ export default {
             bar,
             ViewData,
             ConfirmDialog,
+            CarouselDialog,
             Approved,
-            DisApproved
+            DisApproved,
+            ViewImages,
+            imagesID
         }
     }
 }

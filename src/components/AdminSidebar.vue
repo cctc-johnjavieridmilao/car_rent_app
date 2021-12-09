@@ -1,17 +1,20 @@
 <template>
     <div>
-           <q-header elevated class="bg-deep-purple-7">
+        <q-header elevated class="bg-deep-purple-7">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-          <q-toolbar-title>Welcome Admin</q-toolbar-title>
+          <q-toolbar-title style="font-size: 18px;">Carku: Rental Vehicle</q-toolbar-title>
+           <q-btn flat @click="Logout('Logout')" round dense icon="logout" />
         </q-toolbar>
       </q-header>
 
       <q-drawer
         v-model="drawer"
-        show-if-above
         :width="300"
         :breakpoint="400"
+        overlay
+        class="bg-grey-3"
+        bordered
       >
         <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
           <q-list>
@@ -47,6 +50,7 @@
 <script>
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
+import router from '../router';
 
 export default {
     setup() {
@@ -104,7 +108,11 @@ export default {
             usertype: $q.sessionStorage.getItem('usertype'),
             Logout(label) {
               if(label == 'Logout') {
+                if(confirm('Are you sure you want to logout?') == false) {
+                  return false;
+                } 
                  $q.sessionStorage.clear();
+                  router.push({ path: '/' })
               }
             }
         }

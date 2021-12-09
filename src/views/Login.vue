@@ -102,7 +102,8 @@ export default {
                     $q.notify({
                       color: 'green-4',
                       textColor: 'white',
-                      message: 'Welcome ' + response.data.fullname
+                      message: 'Welcome ' + response.data.fullname,
+                      icon: 'done'
                     })
 
                     setTimeout(() => {
@@ -123,7 +124,8 @@ export default {
                     $q.notify({
                       color: 'negative',
                       textColor: 'white',
-                      message: response.data.msg
+                      message: response.data.msg,
+                      icon: 'error'
                     })
                 }
 

@@ -122,7 +122,7 @@ export default {
             slide: ref(0),
             expanded: ref(false),
             images_array,
-            upload_url: 'https://rent-app-api.online/public/uploads/'
+            upload_url: app.appContext.config.globalProperties.UploadUrl
         }
     },
 }

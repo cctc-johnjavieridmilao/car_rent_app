@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-md">
+    <div class="q-pa-md bg-grey-3">
        <OwnerSidebar />
 
        <p style="font-size: 17px;">Owner dashboard</p>
