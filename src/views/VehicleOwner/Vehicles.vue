@@ -60,6 +60,7 @@
                         label="Upload Images"
                         multiple
                         batch
+                        square
                         style="width: 100%"
                         :filter="checkFileType"
                         @uploaded="IsUploaded"
@@ -68,6 +69,7 @@
                         outlined
                         :factory="factoryFn"
                         auto-upload
+                        clearable
                       />
                 </div>
             </div>
@@ -225,25 +227,46 @@ import {Loader} from '@googlemaps/js-api-loader';
 //const GOOGE_MAPS_API_KEY = 'AIzaSyBnWBlqxn09y1gQCSf0mCrGgtvkExTIyJY';
 const GOOGE_MAPS_API_KEY = 'AIzaSyDiKmRh2vEg2hiV1ZIVeyNlxPjVegpChvE&amp';
 
+const uploaded_ids = ref([]);
+
 export default {
   components: {
     OwnerSidebar
   },
   methods: {
-    factoryFn () {
-      return {
-        url: 'https://rent-app-api.online/Home/UploadFile',
-        method: 'POST',
-        headers: [
-          { name: "Content-Type", value: "multipart/form-data" }
-        ],
-      }
+    factoryFn (files) {
+
+      const formdata = new FormData();
+
+         for(let i = 0; i < files.length; i++) {
+
+             formdata.append('file[]', files[i]);
+
+         }
+
+        axios({
+              method: 'POST',
+              url: 'https://rent-app-api.online/Home/UploadFile',
+              data: formdata,
+              headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then(response => {
+              if(response.data.msg == 'success') {
+
+                 uploaded_ids.value.push(response.data.ids);
+                 
+              }
+          })
+          .catch(err =>  {
+              console.log(err);
+          });
+     
     }
   },
     setup() {
     const app = getCurrentInstance();
     const $q = useQuasar();
-    const uploaded_ids = ref([]);
+    
     const vname = ref(null);
     const vtype = ref(null);
     const price = ref(null);
@@ -352,7 +375,9 @@ export default {
     function IsUploaded(info) {
       const response = JSON.parse(info.xhr.response);
 
-      uploaded_ids.value.push(response.ids);
+      //uploaded_ids.value.push(response.ids);
+
+      console.log(response)
     }
 
      function getPendingVechicles() {
