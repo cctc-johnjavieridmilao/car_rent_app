@@ -234,6 +234,9 @@ export default {
       return {
         url: 'https://rent-app-api.online/Home/UploadFile',
         method: 'POST',
+        headers: [
+          { name: "Content-Type", value: "multipart/form-data" }
+        ],
       }
     }
   },
