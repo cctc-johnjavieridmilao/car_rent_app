@@ -221,13 +221,15 @@
 import { ref, onMounted, getCurrentInstance } from 'vue'
 import OwnerSidebar from '../../components/OwnerSidebar.vue';
 import axios from 'axios';
-import { useQuasar } from 'quasar';
+import { useQuasar, Notify } from 'quasar';
 import {Loader} from '@googlemaps/js-api-loader';
 
 //const GOOGE_MAPS_API_KEY = 'AIzaSyBnWBlqxn09y1gQCSf0mCrGgtvkExTIyJY';
 const GOOGE_MAPS_API_KEY = 'AIzaSyDiKmRh2vEg2hiV1ZIVeyNlxPjVegpChvE&amp';
 
 const uploaded_ids = ref([]);
+
+const bar = ref(null)
 
 export default {
   components: {
@@ -237,6 +239,9 @@ export default {
     factoryFn (files) {
 
       const formdata = new FormData();
+
+      const barRef = bar.value;
+      barRef.start();
 
          for(let i = 0; i < files.length; i++) {
 
@@ -252,6 +257,16 @@ export default {
           })
           .then(response => {
               if(response.data.msg == 'success') {
+
+                Notify.create({
+                  type: 'positive',
+                  color: 'positive',
+                  timeout: 1000,
+                  position: 'center',
+                  message: 'Successfully Uploaded'
+                })
+
+                barRef.stop();
 
                  uploaded_ids.value.push(response.data.ids);
                  
@@ -271,7 +286,7 @@ export default {
     const vtype = ref(null);
     const price = ref(null);
     const vspecs = ref(null);
-    const bar = ref(null)
+    
     const url = app.appContext.config.globalProperties.ApiUrl;
     const isDisabled = ref(false);
     const uploader = ref(null);
