@@ -89,6 +89,7 @@
       
     </q-dialog>
   </div>
+  <ChatSupport/>
 </template>
 
 <script>
@@ -97,11 +98,13 @@ import AdminSidebar from '../../components/AdminSidebar.vue';
 import ImageCarousel from '../../components/ImageCarousel.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
+import ChatSupport from '../../components/ChatSupport.vue';
 
 export default {
     components: {
         AdminSidebar,
-        ImageCarousel
+        ImageCarousel,
+        ChatSupport
     },
     setup() {
         const $q = useQuasar();

@@ -44,6 +44,7 @@
         skip-hijack
       />
   </div>
+  <ChatSupport/>
 </template>
 
 <style scoped>
@@ -56,11 +57,13 @@
 import { ref,onMounted,getCurrentInstance } from 'vue'
 import AdminSidebar from '../../components/AdminSidebar.vue';
 import axios from 'axios';
+import ChatSupport from '../../components/ChatSupport.vue';
 
 
 export default {
     components: {
-        AdminSidebar
+        AdminSidebar,
+        ChatSupport
     },
     setup() {
         const dashboard = ref({

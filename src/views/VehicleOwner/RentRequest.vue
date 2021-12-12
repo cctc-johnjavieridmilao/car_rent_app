@@ -345,6 +345,8 @@
       </q-card>
     </q-dialog>
     </div>
+
+    <ChatSupport/>
 </template>
 
 <script>
@@ -352,10 +354,12 @@ import { ref, onMounted, getCurrentInstance } from 'vue'
 import OwnerSidebar from '../../components/OwnerSidebar.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
+import ChatSupport from '../../components/ChatSupport.vue';
 
 export default {
   components: {
-    OwnerSidebar
+    OwnerSidebar,
+    ChatSupport
   },
     setup() {
 

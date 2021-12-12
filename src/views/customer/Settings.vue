@@ -125,18 +125,22 @@
           </q-tab-panel>
         </q-tab-panels>
   </div>
+
+  <ChatSupport/>
 </template>
 
 <script>
 import { ref,getCurrentInstance } from 'vue';
 import CustomerSidebar from '../../components/CustomerSidebar.vue';
+import ChatSupport from '../../components/ChatSupport.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 import { onMounted } from 'vue';
 
 export default {
     components: {
-        CustomerSidebar
+        CustomerSidebar,
+        ChatSupport
     },
     setup () {
      const app = getCurrentInstance();

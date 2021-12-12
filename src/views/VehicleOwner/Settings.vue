@@ -125,6 +125,7 @@
           </q-tab-panel>
         </q-tab-panels>
   </div>
+  <ChatSupport/>
 </template>
 
 <script>
@@ -133,10 +134,12 @@ import OwnerSidebar from '../../components/OwnerSidebar.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 import { onMounted } from 'vue';
+import ChatSupport from '../../components/ChatSupport.vue';
 
 export default {
     components: {
-        OwnerSidebar
+        OwnerSidebar,
+        ChatSupport
     },
     setup () {
      const app = getCurrentInstance();

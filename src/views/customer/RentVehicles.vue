@@ -309,17 +309,21 @@
       </q-card>
     </q-dialog>
     </div>
+
+    <ChatSupport/>
 </template>
 
 <script>
 import { ref, onMounted, getCurrentInstance } from 'vue'
 import CustomerSidebar from '../../components/CustomerSidebar.vue';
+import ChatSupport from '../../components/ChatSupport.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 
 export default {
   components: {
-    CustomerSidebar
+    CustomerSidebar,
+    ChatSupport
   },
     setup() {
        const app = getCurrentInstance();

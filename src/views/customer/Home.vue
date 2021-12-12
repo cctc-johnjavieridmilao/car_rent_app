@@ -46,6 +46,8 @@
         skip-hijack
       />
 
+      <ChatSupport />
+
      <q-dialog v-model="PrevieVehicleDialog">
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section>
@@ -129,6 +131,7 @@
 import { ref, onMounted, getCurrentInstance } from 'vue'
 import CustomerSidebar from '../../components/CustomerSidebar.vue';
 import RentCard from '../../components/RentCard.vue';
+import ChatSupport from '../../components/ChatSupport.vue';
 import axios from 'axios';
 import { useQuasar } from 'quasar';
 import router from '../../router';
@@ -154,11 +157,23 @@ const current_pos = ref({
 const loader = new Loader({apiKey: GOOGE_MAPS_API_KEY, libraries: ['places','geometry']});
 const search = ref(null);
 
+
 export default {
   components: {
     CustomerSidebar,
-    RentCard
+    RentCard,
+    ChatSupport
   },
+  watch: {
+    messages: {
+      handler(val, oldVal) {
+        console.log('messages updated')
+        console.log(val);
+        console.log(oldVal);
+      },
+      deep: true
+    },
+},
   methods: {
     ClickRent(value) {
 
@@ -293,6 +308,7 @@ export default {
          current_pos.value.lng = position.coords.longitude;
       }
 
+
     onMounted(() => {
       if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
@@ -301,6 +317,7 @@ export default {
           }
 
       getVehicles();
+      
     });
 
     function SearchVehicle() {

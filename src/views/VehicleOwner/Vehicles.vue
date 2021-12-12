@@ -194,6 +194,8 @@
         skip-hijack
       />
     </div>
+
+    <ChatSupport />
 </template>
 
 <style scoped>
@@ -223,6 +225,7 @@ import OwnerSidebar from '../../components/OwnerSidebar.vue';
 import axios from 'axios';
 import { useQuasar, Notify } from 'quasar';
 import {Loader} from '@googlemaps/js-api-loader';
+import ChatSupport from '../../components/ChatSupport.vue';
 
 //const GOOGE_MAPS_API_KEY = 'AIzaSyBnWBlqxn09y1gQCSf0mCrGgtvkExTIyJY';
 const GOOGE_MAPS_API_KEY = 'AIzaSyDiKmRh2vEg2hiV1ZIVeyNlxPjVegpChvE&amp';
@@ -233,7 +236,8 @@ const bar = ref(null)
 
 export default {
   components: {
-    OwnerSidebar
+    OwnerSidebar,
+    ChatSupport
   },
   methods: {
     factoryFn (files) {
@@ -248,6 +252,9 @@ export default {
              formdata.append('file[]', files[i]);
 
          }
+
+         //https://rent-app-api.online/Home/UploadFile
+         //http://localhost:8080/CAR_RENT/api/Home/UploadFile
 
         axios({
               method: 'POST',
