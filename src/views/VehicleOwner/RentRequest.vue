@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
        <OwnerSidebar />
 
-       <p style="font-size: 17px;">Rent Reqeust</p>
+       <p style="font-size: 17px;">Rent Request</p>
 
        <q-tabs
           v-model="tab"
