@@ -51,7 +51,7 @@
         </q-card-section>
 
          <q-footer class="bg-white">
-           <div class="row">
+           <div class="row q-pa-md">
               <div class="col-md-10 col-xs-9">
                 <q-input filled v-model="text_msg" label="Enter message here.." />
               </div>
