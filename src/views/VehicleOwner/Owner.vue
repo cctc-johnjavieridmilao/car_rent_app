@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
        <OwnerSidebar />
 
-       <p style="font-size: 17px;">Owner dashboard</p>
+       <p style="font-size: 17px;"><b>OWNER DASHBOARD</b></p>
 
          <div class="row q-col-gutter-xs">
            <div class="col-md-3 col-sm-12 col-xs-12">

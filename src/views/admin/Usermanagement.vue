@@ -2,68 +2,131 @@
     <div class="q-pa-md bg-grey-3">
         <AdminSidebar />
 
-       <p style="font-size: 17px;">User management</p>
+       <p style="font-size: 17px;"><b>USER MANAGEMENT</b></p>
 
-      <q-table
-        title="Users"
-        :rows="rows"
-        :columns="columns"
-        row-key="recid"
-        :filter="filter"
-        :loading="loading"
-        :dense="$q.screen.lt.md"
+       <q-btn color="primary" label="Add User" icon-right="add" @click="AddUser" /><br><br>
+
+       <q-tabs
+        v-model="tab"
+        dense
+        align="left"
+        class="bg-info text-white shadow-2"
+        :breakpoint="0"
       >
+        <q-tab name="owner" label="Owner" />
+        <q-tab name="customer" label="Customer" />
+      </q-tabs>
 
-       <template v-slot:top-left>
-        <q-btn color="primary" label="Add User" icon-right="add" @click="AddUser" />
-      </template>
+       <q-tab-panels v-model="tab" animated>
 
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="recid" :props="props">
-            {{ props.row.recid }}
-          </q-td>
-          <q-td key="username" :props="props">
-             {{ props.row.username }}
-          </q-td>
-          <q-td key="firstname" :props="props">
-           {{ props.row.firstname }}
-          </q-td>
-          <q-td key="middlename" :props="props">
-             {{ props.row.middlename }}
-          </q-td>
-          <q-td key="lastname" :props="props">
-            {{ props.row.lastname }}
-          </q-td>
-          <q-td key="email" :props="props">
-            {{ props.row.email }}
-          </q-td>
-          <q-td key="phonenumber" :props="props">
-            {{ props.row.phonenumber }}
-          </q-td>
-          <q-td key="usertype" :props="props">
-            {{ props.row.usertype }}
-          </q-td>
-          <q-td key="action" :props="props" class="q-gutter-xs">
-             <q-btn push  color="primary" rounded  label="" icon-right="mode" size="sm" 
-             @click="UpdateItems(props.row.recid)"
-             />
-             <q-btn push  color="red" rounded  label="" icon-right="delete" size="sm" @click="DeleteItems(props.row.recid)"/>
-          </q-td>
-        </q-tr>
-      </template>
+         <q-tab-panel name="owner">
 
-     <template v-slot:top-right>
-        <q-input dense debounce="300" placeholder="Search" color="primary" v-model="filter">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-      </template>
+                 <q-table
+                  title="Owners"
+                  :rows="owner"
+                  :columns="columns"
+                  row-key="recid"
+                  :filter="filter"
+                  :loading="loading"
+                  :dense="$q.screen.lt.md"
+                  grid
+                  hide-header
+                >
 
-    </q-table>
+                <template v-slot:item="props">
+                      <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                        :style="props.selected ? 'transform: scale(0.95);' : ''"
+                      >
+                      
+                      <q-item>
 
-    <q-dialog v-model="editDataDialog">
+                        <q-item-section top>
+                          <q-item-label lines="1">
+                            <span class="text-weight-medium">Name</span> <span class="text-grey-8">: {{ props.row.firstname }}  {{ props.row.middlename }}  {{ props.row.lastname }}</span><br>
+                            <span class="text-weight-medium">Role</span> <span class="text-grey-8">: {{ props.row.usertype }}</span><br>
+                            <span class="text-weight-medium">Email</span> <span class="text-grey-8">: {{ props.row.email }}</span>
+                          </q-item-label>
+                        </q-item-section>
+
+                        <q-item-section top side>
+                          <div class="text-grey-8 q-gutter-xs">
+                            <q-btn size="12px" flat dense round icon="delete" @click="DeleteItems(props.row.recid)"/>
+                            <q-btn size="12px" flat dense round icon="edit"  @click="UpdateItems(props.row.recid)"/>
+                          </div>
+                        </q-item-section>
+                      </q-item>
+
+                         <q-separator />
+                      </div>
+                    </template>
+
+              <template v-slot:top-right>
+                  <q-input dense debounce="300" placeholder="Search" color="primary" v-model="filter">
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </template>
+
+              </q-table>
+
+         </q-tab-panel>
+
+         <q-tab-panel name="customer">
+
+            <q-table
+                  title="Customers"
+                  :rows="customer"
+                  :columns="columns"
+                  row-key="recid"
+                  :filter="filter"
+                  :loading="loading"
+                  :dense="$q.screen.lt.md"
+                  grid
+                  hide-header
+                >
+
+                <template v-slot:item="props">
+                      <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                        :style="props.selected ? 'transform: scale(0.95);' : ''"
+                      >
+
+                      <q-item>
+
+                        <q-item-section top>
+                          <q-item-label lines="1">
+                            <span class="text-weight-medium">Name</span> <span class="text-grey-8">: {{ props.row.firstname }}  {{ props.row.middlename }}  {{ props.row.lastname }}</span><br>
+                            <span class="text-weight-medium">Role</span> <span class="text-grey-8">: {{ props.row.usertype }}</span><br>
+                            <span class="text-weight-medium">Email</span> <span class="text-grey-8">: {{ props.row.email }}</span>
+                          </q-item-label>
+                        </q-item-section>
+
+                        <q-item-section top side>
+                          <div class="text-grey-8 q-gutter-xs">
+                            <q-btn size="12px" flat dense round icon="delete" @click="DeleteItems(props.row.recid)"/>
+                            <q-btn size="12px" flat dense round icon="edit"  @click="UpdateItems(props.row.recid)"/>
+                          </div>
+                        </q-item-section>
+                      </q-item>
+
+                         <q-separator />
+                      </div>
+                    </template>
+
+              <template v-slot:top-right>
+                  <q-input dense debounce="300" placeholder="Search" color="primary" v-model="filter">
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </template>
+
+              </q-table>
+         </q-tab-panel>
+
+       </q-tab-panels>
+
+    <q-dialog v-model="editDataDialog" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h6">Update User</div>
@@ -114,7 +177,7 @@
     </q-dialog>
 
 
-       <q-dialog v-model="AddUserDialog">
+       <q-dialog v-model="AddUserDialog" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h6">Add User</div>
@@ -228,6 +291,8 @@ export default {
             { name: 'action', align: 'left', label: 'Action', field: 'action', sortable: false },
         ];
          const rows = ref([]);
+         const owner = ref([]);
+         const customer = ref([]);
         
          const url = app.appContext.config.globalProperties.ApiUrl;
          const loading = ref(true);
@@ -262,13 +327,54 @@ export default {
                 headers: { "Content-Type": "application/json" },
             })
             .then(response => {
-              rows.value = response.data;
+               rows.value = response.data;
             })
             .catch(err =>  {
                 console.log(err);
             }).finally(() => {
               loading.value = false;
             })
+         }
+
+          function getOwners() {
+           const formdata = new FormData();
+           formdata.append('usertype', 'Owner');
+
+            axios({
+                  method: 'POST',
+                  url: url+'/GetUsersByRole',
+                  data: formdata,
+                  headers: { "Content-Type": "application/json" },
+              })
+              .then(response => {
+                owner.value = response.data;
+              })
+              .catch(err =>  {
+                  console.log(err);
+              }).finally(() => {
+                loading.value = false;
+              })
+         }
+
+
+          function getCustomer() {
+           const formdata = new FormData();
+           formdata.append('usertype', 'Customer');
+           
+            axios({
+                  method: 'POST',
+                  url: url+'/GetUsersByRole',
+                  data: formdata,
+                  headers: { "Content-Type": "application/json" },
+              })
+              .then(response => {
+                customer.value = response.data;
+              })
+              .catch(err =>  {
+                  console.log(err);
+              }).finally(() => {
+                loading.value = false;
+              })
          }
 
          function DeleteItems(id) {
@@ -304,7 +410,8 @@ export default {
                 console.log(err);
             }).finally(() => {
                barRef.stop();
-               getUsers();
+               getCustomer();
+               getOwners();
                ConfirmDeleteDialog.value = false;
             })
          }
@@ -380,7 +487,8 @@ export default {
             }).finally(() => {
                barRef.stop();
                editDataDialog.value = false;
-               getUsers();
+                getCustomer();
+                getOwners();
             })
             
          }
@@ -438,7 +546,8 @@ export default {
             }).finally(() => {
                barRef.stop();
                AddUserDialog.value = false;
-               getUsers();
+                getCustomer();
+                getOwners();
                onReset();
             })
          }
@@ -457,6 +566,8 @@ export default {
 
         onMounted(() => {
            getUsers();
+           getOwners();
+           getCustomer();
         });
 
         return {
@@ -491,7 +602,10 @@ export default {
             AddUserDialog,
             AddUser,
             OnInsert,
-            onReset
+            onReset,
+            tab: ref('owner'),
+            owner,
+            customer
         }
     }
 }

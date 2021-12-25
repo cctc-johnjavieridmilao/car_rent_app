@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
         <AdminSidebar />
 
-     <p style="font-size: 17px;">Admin Settings</p>
+     <p style="font-size: 17px;"><b>ADMIN SETTINGS</b></p>
 
      <q-tabs
         v-model="tab"

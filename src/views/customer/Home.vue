@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
        <CustomerSidebar />
 
-       <p style="font-size: 17px;">Customer dashboard</p>
+       <p style="font-size: 17px;"><b>LIST OF VEHICLES</b></p>
       
       <div class="row q-col-gutter-sm">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -17,22 +17,26 @@
             </template>
           </q-input>
         </div>
+
+         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+             <q-select filled v-model="vtype" :options="vehiclesType" @update:model-value="loadVehicles()" label="Search Vehicle Type" />
+        </div>
          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12" v-for="(item) in vehicle_list" :key="item.RecID">
 
             <RentCard
-            @RentVehicle="ClickRent" 
-            @Viewmap="Onviewmap"
-            :Owner="item.fullname" 
-            :VehicleType="item.vehicle_type" 
-            :RecID="item.RecID" 
-            :ImgesID="item.images_id" 
-            :title="item.title" 
-            :price="item.price" 
-            :Description="item.specification" 
-            location="Dadap luna"
-            :pickupAddress="item.pick_up_address"
-            :lat="item.lat"
-            :lang="item.lang"
+              @RentVehicle="ClickRent" 
+              @Viewmap="Onviewmap"
+              :Owner="item.fullname" 
+              :VehicleType="item.vehicle_type" 
+              :RecID="item.RecID" 
+              :ImgesID="item.images_id" 
+              :title="item.title" 
+              :price="item.price" 
+              :Description="item.specification" 
+              location="Dadap luna"
+              :pickupAddress="item.pick_up_address"
+              :lat="item.lat"
+              :lang="item.lang"
             />
             
          </div>
@@ -48,7 +52,7 @@
 
       <ChatSupport />
 
-     <q-dialog v-model="PrevieVehicleDialog">
+     <q-dialog v-model="PrevieVehicleDialog" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h6">FOR PICKUP</div>
@@ -61,7 +65,47 @@
         </q-card-section>
 
         <q-card-section style="max-height: 50vh; margin-top: -12px;" class="scroll">
-           <div class="row q-gutter-sm">
+
+          <div class="row q-gutter-sm">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                 <q-input filled v-model="pick_date" mask="date" :rules="['date']" label="Pickup date">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="pick_date">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                 <q-input filled v-model="pick_time" mask="time" :rules="['time']" label="Pickup time">
+                  <template v-slot:append>
+                    <q-icon name="access_time" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                         <!-- <q-time v-model="pick_time" mask="YYYY-MM-DD HH:mm" format24h> -->
+                           <q-time v-model="pick_time" with-seconds>
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                          </div>
+                        </q-time>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+              </div>
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <q-select filled v-model="payment_type" :options="Payment" label="Payment Type"/>
+              </div>
+          </div>
+
+           <div class="row q-gutter-sm" style="margin-top: 10px;">
              <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Owner: </label>
                   <q-input filled v-model="owner" readonly/>
@@ -101,7 +145,7 @@
     </q-dialog>
 
 
-    <q-dialog v-model="ViewMapDialogs">
+    <q-dialog v-model="ViewMapDialogs" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section>
           <div class="text-h6">VIEW LOCATION</div>
@@ -148,6 +192,11 @@ const v_type = ref(null);
 const v_specs = ref(null);
 const vehicle_id = ref(null);
 const v_price = ref(null);
+
+const pick_date = ref(null);
+const pick_time = ref(null);
+const payment_type = ref(null);
+
 const mapDiv = ref(null);
 const ViewMapDialogs = ref(false);
 const current_pos = ref({
@@ -156,6 +205,7 @@ const current_pos = ref({
       });
 const loader = new Loader({apiKey: GOOGE_MAPS_API_KEY, libraries: ['places','geometry']});
 const search = ref(null);
+const vtype = ref(null);
 
 
 export default {
@@ -268,6 +318,10 @@ export default {
       formdata.append('vehicle_specs', v_specs.value);
       formdata.append('price', v_price.value);
 
+      formdata.append('pick_date', pick_date.value);
+      formdata.append('pick_time', pick_time.value);
+      formdata.append('payment_type', payment_type.value);
+
        barRef.start();
        isDisabled.value = true;
 
@@ -345,6 +399,31 @@ export default {
         })
     }
 
+    function loadVehicles() {
+        const barRef = bar.value;
+        const formdata = new FormData();
+        formdata.append('key', vtype.value);
+
+        barRef.start();
+
+        vehicle_list.value.length = 0;
+     
+       axios({
+            method: 'POST',
+            url: url+'/SearchVehicles',
+            data: formdata,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(response => {
+          vehicle_list.value = response.data;
+        })
+        .catch(err =>  {
+            console.log(err);
+        }).finally(() => {
+           barRef.stop();
+        })
+    }
+
     return {
       vehicle_list,
       bar,
@@ -361,7 +440,14 @@ export default {
       mapDiv,
       ViewMapDialogs,
       SearchVehicle,
-      search
+      search,
+      loadVehicles,
+      vtype,
+      pick_date,
+      pick_time,
+      payment_type,
+      Payment: ['PAYMENT UPON PICK-UP','PAYMENT UPON DELIVERY'],
+      vehiclesType: ['SEDAN','COUPE','SPORTS CAR','STATION WAGON','HATCHBACK','CONVERTIBLE','SUV','MINIVAN','PICKUP TRUCK','VAN','TRYCYCLE']
     }
                 
    }

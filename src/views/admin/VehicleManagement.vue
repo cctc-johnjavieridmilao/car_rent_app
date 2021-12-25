@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
         <AdminSidebar />
 
-       <p style="font-size: 17px;">Vehicle management</p>
+       <p style="font-size: 17px;"><b>VEHICLE MANAGEMENT</b></p>
 
 
             <q-table
@@ -12,43 +12,36 @@
                   row-key="recid"
                   :filter="filter"
                   :dense="$q.screen.lt.md"
+                  grid
+                  hide-header
                 >
 
-              <template v-slot:body="props">
-                <q-tr :props="props">
-                  <q-td key="recid" :props="props">
-                    {{ props.row.RecID }}
-                  </q-td>
-                  <q-td key="owner_name" :props="props">
-                    {{ props.row.fullname }}
-                  </q-td>
-                  <q-td key="vehicle_name" :props="props">
-                    {{ props.row.vehicle_name }}
-                  </q-td>
-                  <q-td key="vehicle_type" :props="props">
-                  {{ props.row.vehicle_type }}
-                  </q-td>
-                  <q-td key="specification" :props="props">
-                    {{ props.row.specification.length > 35 ? props.row.specification.substring(0,35) + '...' : props.row.specification }}
-                  </q-td>
-                  <q-td key="price" :props="props">
-                    {{ props.row.price }}
-                  </q-td>
-                  <q-td key="status" :props="props">
-                    {{ props.row.status }}
-                  </q-td>
-                  <q-td key="created_at" :props="props">
-                    {{ props.row.created_at }}
-                  </q-td>
-                  <q-td key="approved_date" :props="props">
-                    {{ props.row.approved_date }}
-                  </q-td>
-                  <q-td key="action" :props="props" class="q-gutter-xs">
-                    <q-btn push  color="primary" :disable="props.row.status === 'FOR APPROVAL' ? false : true" rounded  label="" icon-right="find_in_page" size="sm" @click="ViewData(props.row.RecID)"/>
-                    <q-btn push  color="secondary" rounded  label="" icon-right="image" @click="ViewImages(`${props.row.images_id}`)" size="sm"/>
-                </q-td>
-                </q-tr>
-              </template>
+               <template v-slot:item="props">
+                      <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                        :style="props.selected ? 'transform: scale(0.95);' : ''"
+                      >
+
+                      <q-item>
+
+                        <q-item-section top>
+                          <q-item-label lines="1">
+                            <span class="text-weight-medium">OwnerName</span> <span class="text-grey-8">: {{ props.row.fullname }}</span><br>
+                            <span class="text-weight-medium">VehicleName</span> <span class="text-grey-8">: {{ props.row.vehicle_name }}</span><br>
+  
+                          </q-item-label>
+                        </q-item-section>
+
+                        <q-item-section top side>
+                          <div class="text-grey-8 q-gutter-xs">
+                            <q-btn size="13px" flat dense round icon="pageview" @click="ViewData(props)"/>
+                            <!-- <q-btn size="13px" flat dense round icon="image" @click="ViewImages(`${props.row.images_id}`)"/> -->
+
+                          </div>
+                        </q-item-section>
+                      </q-item>
+                         <q-separator />
+                      </div>
+                    </template>
 
           <template v-slot:top-right>
               <q-input dense debounce="300" placeholder="Search" color="primary" v-model="filter">
@@ -67,6 +60,63 @@
             size="10px"
             skip-hijack
         />
+
+     <q-dialog v-model="ViewVehicleDialog" full-width>
+      <q-card style="width: 700px; max-width: 80vw;">
+
+        <q-card-section>
+          <div class="text-h6" style="font-size: 16px;">VEHICLE DETAILS: </div>
+        </q-card-section>
+
+        <q-card-section style="max-height: 50vh; margin-top: -12px;" class="scroll">
+           <div class="row q-gutter-sm">
+             <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Owner: </label>
+                  <q-input filled v-model="v_owner" readonly/>
+              </div>
+              <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Pickup Address: </label>
+                  <q-input filled v-model="v_address" readonly />
+              </div> -->
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Name: </label>
+                  <q-input filled v-model="v_name" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Type: </label>
+                  <q-input filled v-model="v_type" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Status: </label>
+                  <q-input filled v-model="v_status" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Price: </label>
+                  <q-input filled v-model="v_price" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Specification: </label>
+                  <q-input type="textarea" filled v-model="v_specs" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Images: </label>
+                  <ImageCarousel :ImgesID="imagesID"/>
+              </div>
+              
+           </div>
+           
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn flat label="Close" color="red" v-close-popup />
+          <q-btn flat label="Approved" :disable="v_status == 'APPROVED' ? true : false" @click="Approved" color="primary"/>
+          <q-btn flat label="Disapproved" :disable="v_status == 'APPROVED' ? true : false" @click="DisApproved" color="secondary"/>
+        </q-card-actions>
+
+      </q-card>
+    </q-dialog>
 
     <q-dialog v-model="ConfirmDialog" persistent>
       <q-card>
@@ -130,6 +180,15 @@ export default {
         const vehicle_id = ref(null);
         const imagesID = ref([]);
 
+        const ViewVehicleDialog = ref(false);
+        const v_owner = ref(null);
+        const v_address = ref(null);
+        const v_name = ref(null);
+        const v_type = ref(null);
+        const v_price = ref(null);
+        const v_specs = ref(null);
+        const v_status = ref(null);
+
         function getVehicles() {
           const barRef = bar.value;
           barRef.start();
@@ -149,9 +208,21 @@ export default {
             })
         }
 
-        function ViewData(id) {
-            vehicle_id.value = id;
-            ConfirmDialog.value = true;
+        function ViewData(data) {
+           const img = data.row.images_id.split(',');
+
+            vehicle_id.value = data.row.RecID;
+            v_owner.value = data.row.fullname;
+            v_name.value = data.row.vehicle_name;
+            v_type.value = data.row.vehicle_type;
+            v_specs.value = data.row.specification;
+            v_status.value = data.row.status;
+            v_price.value = data.row.price;
+
+            imagesID.value = []; //reset
+            imagesID.value.push(img);
+            //ConfirmDialog.value = true;
+            ViewVehicleDialog.value = true;
         }
 
         function ViewImages(images) {
@@ -242,7 +313,15 @@ export default {
             Approved,
             DisApproved,
             ViewImages,
-            imagesID
+            imagesID,
+            ViewVehicleDialog,
+            v_specs,
+            v_owner,
+            v_address,
+            v_type,
+            v_price,
+            v_name,
+            v_status
         }
     }
 }

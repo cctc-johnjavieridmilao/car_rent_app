@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
         <AdminSidebar />
 
-       <p style="font-size: 17px;">Admin dashboard</p>
+       <p style="font-size: 17px;"><b>ADMIN DASHBOARD</b></p>
 
        <div class="row q-col-gutter-xs">
            <div class="col-md-4 col-sm-12 col-xs-12">

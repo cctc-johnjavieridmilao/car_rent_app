@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
         <CustomerSidebar />
 
-     <p style="font-size: 17px;"> Settings</p>
+     <p style="font-size: 17px;"><b>SETTINGS</b></p>
 
      <q-tabs
         v-model="tab"

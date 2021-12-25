@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-card class="my-card">
-         <q-carousel swipeable animated v-model="slide" thumbnails infinite style="width: 550px;">
+         <q-carousel swipeable animated v-model="slide" thumbnails infinite style="width: 100%;">
             <q-carousel-slide v-for="(image, index) in images_array" :key="image.RecID" :name="index" :img-src="upload_url + image.image_name" />
          </q-carousel>
     </q-card>

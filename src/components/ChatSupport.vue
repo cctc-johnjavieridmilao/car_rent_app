@@ -14,7 +14,7 @@
       transition-hide="slide-down"
     >
       <q-card class="">
-        <q-bar>
+        <q-bar class="bg-primary">
           <q-space />
 
           <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
@@ -40,7 +40,7 @@
               
               <q-chat-message
                 v-for="(msg) in messages" :key="msg.RecID"
-                :name="msg.send_by == userid ? msg.send_by_name : msg.send_to_name"
+                :name="msg.send_by_name"
                 :text="[msg.message]"
                 :sent="msg.send_by == userid ? true : false"
                 :stamp="msg.date"

@@ -2,7 +2,7 @@
     <div class="q-pa-md">
        <OwnerSidebar />
 
-       <p style="font-size: 17px;">Lists of Vehicles</p>
+       <p style="font-size: 17px;"><b>LIST OF VEHICLES</b></p>
 
        <q-tabs
           v-model="tab"
@@ -90,36 +90,37 @@
                   row-key="recid"
                   :filter="filter_pending"
                   :dense="$q.screen.lt.md"
+                  grid
+                  hide-header
                 >
 
-              <template v-slot:body="props">
-                <q-tr :props="props">
-                  <q-td key="recid" :props="props">
-                    {{ props.row.RecID }}
-                  </q-td>
-                  <q-td key="vehicle_name" :props="props">
-                    {{ props.row.vehicle_name }}
-                  </q-td>
-                  <q-td key="vehicle_type" :props="props">
-                  {{ props.row.vehicle_type }}
-                  </q-td>
-                  <q-td key="specification" :props="props">
-                    {{ props.row.specification.length > 35 ? props.row.specification.substring(0,35) + '...' : props.row.specification }}
-                  </q-td>
-                    <q-td key="pick_up_address" :props="props">
-                    {{ props.row.pick_up_address }}
-                  </q-td>
-                  <q-td key="price" :props="props">
-                    {{ props.row.price }}
-                  </q-td>
-                  <q-td key="status" :props="props">
-                    {{ props.row.status }}
-                  </q-td>
-                  <q-td key="created_at" :props="props">
-                    {{ props.row.created_at }}
-                  </q-td>
-                </q-tr>
-              </template>
+                 <template v-slot:item="props">
+                      <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                        :style="props.selected ? 'transform: scale(0.95);' : ''"
+                      >
+
+                      <q-item>
+
+                        <q-item-section top>
+                          <q-item-label lines="1">
+                            <span class="text-weight-medium">RecordID</span> <span class="text-grey-8">: {{ props.row.RecID }}</span><br>
+                            <span class="text-weight-medium">VehicleType</span> <span class="text-grey-8">: {{ props.row.vehicle_type }}</span><br>
+                            <span class="text-weight-medium">VehicleName</span> <span class="text-grey-8">: {{ props.row.vehicle_name }}</span><br>
+  
+                          </q-item-label>
+                        </q-item-section>
+
+                        <q-item-section top side>
+                          <div class="text-grey-8 q-gutter-xs">
+                            <q-btn size="13px" flat dense round icon="pageview" @click="ViewData(props)"/>
+                            <!-- <q-btn size="13px" flat dense round icon="image" @click="ViewImages(`${props.row.images_id}`)"/> -->
+
+                          </div>
+                        </q-item-section>
+                      </q-item>
+                         <q-separator />
+                      </div>
+                    </template>
 
           <template v-slot:top-right>
               <q-input dense debounce="300" placeholder="Search" color="primary" v-model="filter_pending">
@@ -140,39 +141,37 @@
                   row-key="recid"
                   :filter="filter_approved"
                   :dense="$q.screen.lt.md"
+                  grid
+                  hide-header
                 >
 
-              <template v-slot:body="props">
-                <q-tr :props="props">
-                  <q-td key="recid" :props="props">
-                    {{ props.row.RecID }}
-                  </q-td>
-                  <q-td key="vehicle_name" :props="props">
-                    {{ props.row.vehicle_name }}
-                  </q-td>
-                  <q-td key="vehicle_type" :props="props">
-                  {{ props.row.vehicle_type }}
-                  </q-td>
-                  <q-td key="specification" :props="props">
-                    {{ props.row.specification.length > 35 ? props.row.specification.substring(0,35) + '...' : props.row.specification }}
-                  </q-td>
-                   <q-td key="pick_up_address" :props="props">
-                    {{ props.row.pick_up_address }}
-                  </q-td>
-                  <q-td key="price" :props="props">
-                    {{ props.row.price }}
-                  </q-td>
-                  <q-td key="status" :props="props">
-                    {{ props.row.status }}
-                  </q-td>
-                  <q-td key="created_at" :props="props">
-                    {{ props.row.created_at }}
-                  </q-td>
-                  <q-td key="approved_date" :props="props">
-                    {{ props.row.approved_date }}
-                  </q-td>
-                </q-tr>
-              </template>
+             <template v-slot:item="props">
+                      <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+                        :style="props.selected ? 'transform: scale(0.95);' : ''"
+                      >
+
+                      <q-item>
+
+                        <q-item-section top>
+                          <q-item-label lines="1">
+                            <span class="text-weight-medium">RecordID</span> <span class="text-grey-8">: {{ props.row.RecID }}</span><br>
+                            <span class="text-weight-medium">VehicleType</span> <span class="text-grey-8">: {{ props.row.vehicle_type }}</span><br>
+                            <span class="text-weight-medium">VehicleName</span> <span class="text-grey-8">: {{ props.row.vehicle_name }}</span><br>
+  
+                          </q-item-label>
+                        </q-item-section>
+
+                        <q-item-section top side>
+                          <div class="text-grey-8 q-gutter-xs">
+                            <q-btn size="13px" flat dense round icon="pageview" @click="ViewData(props)"/>
+                            <!-- <q-btn size="13px" flat dense round icon="image" @click="ViewImages(`${props.row.images_id}`)"/> -->
+
+                          </div>
+                        </q-item-section>
+                      </q-item>
+                         <q-separator />
+                      </div>
+                    </template>
 
           <template v-slot:top-right>
               <q-input dense debounce="300" placeholder="Search" color="primary" v-model="filter_approved">
@@ -193,6 +192,65 @@
         size="10px"
         skip-hijack
       />
+
+
+           <q-dialog v-model="ViewVehicleDialog" full-width>
+      <q-card style="width: 700px; max-width: 80vw;">
+
+        <q-card-section>
+          <div class="text-h6" style="font-size: 16px;">VEHICLE DETAILS: </div>
+        </q-card-section>
+
+        <q-card-section style="max-height: 50vh; margin-top: -12px;" class="scroll">
+           <div class="row q-gutter-sm">
+             <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Owner: </label>
+                  <q-input filled v-model="v_owner" readonly/>
+              </div> -->
+              <!-- <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Pickup Address: </label>
+                  <q-input filled v-model="v_address" readonly />
+              </div> -->
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Name: </label>
+                  <q-input filled v-model="v_name" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Type: </label>
+                  <q-input filled v-model="v_type" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Status: </label>
+                  <q-input filled v-model="v_status" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Price: </label>
+                  <q-input filled v-model="v_price" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Specification: </label>
+                  <q-input type="textarea" filled v-model="v_specs" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Images: </label>
+                  <ImageCarousel :ImgesID="imagesID"/>
+              </div>
+              
+           </div>
+           
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn flat label="Close" color="red" v-close-popup />
+          <!-- <q-btn flat label="Approved" :disable="v_status == 'APPROVED' ? true : false" @click="Approved" color="primary"/>
+          <q-btn flat label="Disapproved" :disable="v_status == 'APPROVED' ? true : false" @click="DisApproved" color="secondary"/> -->
+        </q-card-actions>
+
+      </q-card>
+    </q-dialog>
+
     </div>
 
     <ChatSupport />
@@ -226,6 +284,7 @@ import axios from 'axios';
 import { useQuasar, Notify } from 'quasar';
 import {Loader} from '@googlemaps/js-api-loader';
 import ChatSupport from '../../components/ChatSupport.vue';
+import ImageCarousel from '../../components/ImageCarousel.vue';
 
 //const GOOGE_MAPS_API_KEY = 'AIzaSyBnWBlqxn09y1gQCSf0mCrGgtvkExTIyJY';
 const GOOGE_MAPS_API_KEY = 'AIzaSyDiKmRh2vEg2hiV1ZIVeyNlxPjVegpChvE&amp';
@@ -237,7 +296,8 @@ const bar = ref(null)
 export default {
   components: {
     OwnerSidebar,
-    ChatSupport
+    ChatSupport,
+    ImageCarousel
   },
   methods: {
     factoryFn (files) {
@@ -300,6 +360,18 @@ export default {
     const filter_pending = ref('');
     const filter_approved = ref('');
     const tab = ref('enroll_vehicles');
+
+    const imagesID = ref([]);
+
+      const ViewVehicleDialog = ref(false);
+      const v_owner = ref(null);
+      const v_address = ref(null);
+      const v_name = ref(null);
+      const v_type = ref(null);
+      const v_price = ref(null);
+      const v_specs = ref(null);
+      const v_status = ref(null);
+      const vehicle_id = ref(null);
 
      const current_pos = ref({
         lat: 0,
@@ -512,6 +584,23 @@ export default {
       },500)
     }
 
+    function ViewData(data) {
+           const img = data.row.images_id.split(',');
+
+            vehicle_id.value = data.row.RecID;
+            v_owner.value = data.row.fullname;
+            v_name.value = data.row.vehicle_name;
+            v_type.value = data.row.vehicle_type;
+            v_specs.value = data.row.specification;
+            v_status.value = data.row.status;
+            v_price.value = data.row.price;
+
+            imagesID.value = []; //reset
+            imagesID.value.push(img);
+            //ConfirmDialog.value = true;
+            ViewVehicleDialog.value = true;
+        }
+
     onMounted(() => {
 
           if (navigator.geolocation) {
@@ -539,7 +628,7 @@ export default {
       isDisabled,
       uploader,
       reset,
-      vehiclesType: ['SEDAN','COUPE','SPORTS CAR','STATION WAGON','HATCHBACK','CONVERTIBLE','SUV','MINIVAN','PICKUP TRUCK','VAN'],
+      vehiclesType: ['SEDAN','COUPE','SPORTS CAR','STATION WAGON','HATCHBACK','CONVERTIBLE','SUV','MINIVAN','PICKUP TRUCK','VAN','TRYCYCLE'],
       rows_for_pparoval,
       columns_for_pparoval,
       filter_pending,
@@ -547,7 +636,18 @@ export default {
       rows_for_approved,
       filter_approved,
       mapDiv,
-      loadMapOnClick
+      loadMapOnClick,
+      imagesID,
+      ViewVehicleDialog,
+      v_specs,
+      v_owner,
+      v_address,
+      v_type,
+      v_price,
+      v_name,
+      v_status,
+      ViewData,
+      vehicle_id
     }
                 
    }

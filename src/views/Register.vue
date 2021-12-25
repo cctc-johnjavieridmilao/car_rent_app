@@ -1,11 +1,23 @@
 <template>
- <div class="window-width row justify-center items-center" style="background: linear-gradient(#8274C5, #5A4A9F);">
+ <div class="window-width row justify-center items-center" style="background: linear-gradient(0deg, rgba(2,0,36,1) 5%, rgba(38,38,112,1) 47%, rgba(0,212,255,1) 100%);">
     <div class="row justify-center align-items-center" style="height: 100%">
        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <q-card style="margin-top: 10px;">
-        <q-card-section class="bg-deep-purple-7 text-white">
+        <!-- <q-card-section class="bg-deep-purple-7 text-white">
             <div class="text-h6">Carku: Rental Vehicle</div>
             <div class="text-subtitle2">Sign-up account here..</div>
+        </q-card-section> -->
+        <q-card-section class="text-white" style="background: rgba(38,38,112,1)">
+            <!-- <div class="text-h6">Carku: Rental Vehicle</div> !-->
+             <q-img
+                src="../assets/carku_logo.png"
+                loading="lazy"
+                height="140px"
+                style="max-width: 150px;margin-left: 110px"
+              />
+            <div class="text-subtitle2">Sign-up your account here..</div>
+
+          
         </q-card-section>
         <q-separator inset />
         <q-card-section>
