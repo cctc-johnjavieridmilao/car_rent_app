@@ -19,6 +19,9 @@ import Customer from './views/customer/Home.vue';
 import CustomerSettings from './views/customer/Settings.vue';
 import CustomerRent from './views/customer/RentVehicles.vue';
 
+//GLOBAL FILE
+import RentHistory from './views/global/RentHistory.vue';
+
 
 const AdminsRoues = [
     {
@@ -64,6 +67,14 @@ const AdminsRoues = [
           }
     },
     {
+        path: '/admin/renthistory',
+        name: 'admin.rent.history',
+        component: RentHistory,
+        meta: {
+            requiresAuth: true,
+          }
+    },
+    {
         path: '/admin/transactionlist',
         name: 'admin.transactionlist',
         component: Transactionlist,
@@ -94,6 +105,14 @@ const ownerRoutes = [
         path: '/owner/rentrequest',
         name: 'owner.rentrequest',
         component: RentRequest,
+        meta: {
+            requiresAuth: true,
+          }
+    },
+    {
+        path: '/owner/renthistory',
+        name: 'owner.rent.history',
+        component: RentHistory,
         meta: {
             requiresAuth: true,
           }
@@ -133,6 +152,17 @@ const customerRoutes = [
             requiresAuth: true,
           }
     },
+
+    {
+        path: '/customer/renthistory',
+        name: 'customer.rent.history',
+        component: RentHistory,
+        meta: {
+            requiresAuth: true,
+          }
+    },
+
+    
 ];
 
 const routes = [...AdminsRoues,...ownerRoutes,...customerRoutes];

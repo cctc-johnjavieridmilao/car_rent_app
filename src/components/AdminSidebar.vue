@@ -91,6 +91,13 @@ export default {
                 isDisabled: false
             },
             {
+                icon: 'dashboard',
+                label: 'Rent History',
+                separator: true,
+                path: '/admin/renthistory',
+                isDisabled: false
+            },
+            {
                 icon: 'logout',
                 label: 'Logout',
                 separator: true,

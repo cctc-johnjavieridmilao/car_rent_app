@@ -84,6 +84,13 @@ export default {
             path: '/owner/rentrequest',
             isDisabled: false
         },
+         {
+            icon: 'dashboard',
+            label: 'Rent History',
+            separator: true,
+            path: '/owner/renthistory',
+            isDisabled: false
+        },
         {
             icon: 'logout',
             label: 'Logout',

@@ -66,6 +66,56 @@
 
         <q-card-section style="max-height: 50vh; margin-top: -12px;" class="scroll">
 
+           <div class="row q-gutter-sm" style="margin-top: 10px;">
+             <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Owner: </label>
+                  <q-input filled v-model="owner" readonly/>
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Pickup Address: </label>
+                  <q-input filled v-model="address" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Name: </label>
+                  <q-input filled v-model="v_name" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Type: </label>
+                  <q-input filled v-model="v_type" readonly />
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Price: </label>
+                  <q-input filled v-model="v_price" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Vehicle Specification: </label>
+                  <q-input type="textarea" filled v-model="v_specs" readonly />
+              </div>
+           </div>
+           
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn flat label="Close" type="reset" color="primary" v-close-popup />
+          <q-btn flat type="button" @click="ProceedToRent" label="Proceed" color="primary"/>
+        </q-card-actions>
+
+      </q-card>
+    </q-dialog>
+
+
+    <q-dialog v-model="RentDialog" full-width>
+      <q-card style="width: 700px; max-width: 80vw;">
+        <q-card-section>
+          <div class="text-h6">RENT DETAILS</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="max-height: 50vh; margin-top: -12px;" class="scroll">
+
           <div class="row q-gutter-sm">
               <div class="col-md-12 col-sm-12 col-xs-12">
                  <q-input filled v-model="pick_date" mask="date" :rules="['date']" label="Pickup date">
@@ -103,34 +153,16 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <q-select filled v-model="payment_type" :options="Payment" label="Payment Type"/>
               </div>
-          </div>
 
-           <div class="row q-gutter-sm" style="margin-top: 10px;">
-             <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Owner: </label>
-                  <q-input filled v-model="owner" readonly/>
-              </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Pickup Address: </label>
-                  <q-input filled v-model="address" readonly />
+                   <q-file
+                    v-model="customer_valid_id"
+                    label="Upload Valid ID"
+                    filled
+                    style="width: 100%"
+                  />
               </div>
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Vehicle Name: </label>
-                  <q-input filled v-model="v_name" readonly />
-              </div>
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Vehicle Type: </label>
-                  <q-input filled v-model="v_type" readonly />
-              </div>
-               <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Price: </label>
-                  <q-input filled v-model="v_price" readonly />
-              </div>
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Vehicle Specification: </label>
-                  <q-input type="textarea" filled v-model="v_specs" readonly />
-              </div>
-           </div>
+          </div>
            
         </q-card-section>
 
@@ -138,7 +170,7 @@
 
         <q-card-actions align="right">
           <q-btn flat label="Close" type="reset" color="primary" v-close-popup />
-          <q-btn flat type="button" @click="Proceed" :disable="isDisabled" label="Proceed" color="primary"/>
+          <q-btn flat type="button" @click="Proceed" :disable="isDisabled" label="Submit Application" color="primary"/>
         </q-card-actions>
 
       </q-card>
@@ -196,6 +228,7 @@ const v_price = ref(null);
 const pick_date = ref(null);
 const pick_time = ref(null);
 const payment_type = ref(null);
+const customer_valid_id = ref(null);
 
 const mapDiv = ref(null);
 const ViewMapDialogs = ref(false);
@@ -206,6 +239,7 @@ const current_pos = ref({
 const loader = new Loader({apiKey: GOOGE_MAPS_API_KEY, libraries: ['places','geometry']});
 const search = ref(null);
 const vtype = ref(null);
+const RentDialog =  ref(false);
 
 
 export default {
@@ -305,9 +339,23 @@ export default {
         })
     }
 
+    function ProceedToRent() {
+        PrevieVehicleDialog.value = false;
+        RentDialog.value = true;
+    }
+
     function Proceed() {
       const formdata = new FormData();
       const barRef = bar.value;
+
+      if(pick_date.value == null || pick_time.value == null || payment_type.value == null || customer_valid_id.value == null) {
+        $q.notify({
+                color: 'red',
+                textColor: 'white',
+                message: 'All fields are required!'
+        });
+        return false;
+      }
 
       formdata.append('vehicle_id', vehicle_id.value);
       formdata.append('customer_id', $q.sessionStorage.getItem('u_id'));
@@ -321,6 +369,8 @@ export default {
       formdata.append('pick_date', pick_date.value);
       formdata.append('pick_time', pick_time.value);
       formdata.append('payment_type', payment_type.value);
+      formdata.append('customer_valid_id', customer_valid_id.value);
+      
 
        barRef.start();
        isDisabled.value = true;
@@ -348,7 +398,7 @@ export default {
 
             barRef.stop();
             isDisabled.value = false;
-            PrevieVehicleDialog.value = false;
+            RentDialog.value = false;
             
         })
         .catch(err =>  {
@@ -435,6 +485,7 @@ export default {
       v_type,
       v_specs,
       vehicle_id,
+      customer_valid_id,
       v_price,
       Proceed,
       mapDiv,
@@ -446,6 +497,8 @@ export default {
       pick_date,
       pick_time,
       payment_type,
+      RentDialog,
+      ProceedToRent,
       Payment: ['PAYMENT UPON PICK-UP','PAYMENT UPON DELIVERY'],
       vehiclesType: ['SEDAN','COUPE','SPORTS CAR','STATION WAGON','HATCHBACK','CONVERTIBLE','SUV','MINIVAN','PICKUP TRUCK','VAN','TRYCYCLE']
     }
