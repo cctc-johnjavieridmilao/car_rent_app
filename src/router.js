@@ -9,18 +9,23 @@ import AdminSettings from './views/admin/AdminSettings.vue';
 import Usermanagement from './views/admin/Usermanagement.vue';
 import Vehiclemanagement from './views/admin/VehicleManagement.vue';
 import Transactionlist from './views/admin/TransactionList.vue';
+import AdminRentHistory from './views/admin/AdminRentHistory.vue';
+
 //OWNER
 import Owner from './views/VehicleOwner/Owner.vue';
 import OwnerSettings from './views/VehicleOwner/Settings.vue';
 import OwnerVehicles from './views/VehicleOwner/Vehicles.vue';
-import RentRequest from './views/VehicleOwner/RentRequest.vue'
+import RentRequest from './views/VehicleOwner/RentRequest.vue';
+import OwnerRentHistory from './views/VehicleOwner/OwnerRentHistory.vue';
+
 //CUSTOMER
 import Customer from './views/customer/Home.vue';
 import CustomerSettings from './views/customer/Settings.vue';
 import CustomerRent from './views/customer/RentVehicles.vue';
+import CustomerRentHistory from './views/customer/CustomerRentHistory.vue';
 
 //GLOBAL FILE
-import RentHistory from './views/global/RentHistory.vue';
+//import RentHistory from './views/global/RentHistory.vue';
 
 
 const AdminsRoues = [
@@ -69,7 +74,7 @@ const AdminsRoues = [
     {
         path: '/admin/renthistory',
         name: 'admin.rent.history',
-        component: RentHistory,
+        component: AdminRentHistory,
         meta: {
             requiresAuth: true,
           }
@@ -112,7 +117,7 @@ const ownerRoutes = [
     {
         path: '/owner/renthistory',
         name: 'owner.rent.history',
-        component: RentHistory,
+        component: OwnerRentHistory,
         meta: {
             requiresAuth: true,
           }
@@ -156,7 +161,7 @@ const customerRoutes = [
     {
         path: '/customer/renthistory',
         name: 'customer.rent.history',
-        component: RentHistory,
+        component: CustomerRentHistory,
         meta: {
             requiresAuth: true,
           }
