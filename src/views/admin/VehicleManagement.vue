@@ -98,6 +98,35 @@
                   <label>Vehicle Specification: </label>
                   <q-input type="textarea" filled v-model="v_specs" readonly />
               </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                   <label>Official Receipt (OR): </label>
+                   <q-img
+                        :src="upload_url + or_uploaded"
+                        spinner-color="white"
+                        style="height: 250px; width: 100%"
+                        img-class="my-custom-image"
+                        class="rounded-borders"
+                    >
+                    <div class="absolute-bottom text-subtitle1 text-center">
+                        Official Receipt (OR)
+                    </div>
+                    </q-img>
+              </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                   <label>Certificate of Registration (CR): </label>
+                   <q-img
+                        :src="upload_url + cr_uploaded"
+                        spinner-color="white"
+                        style="height: 250px; width: 100%"
+                        img-class="my-custom-image"
+                        class="rounded-borders"
+                    >
+                    <div class="absolute-bottom text-subtitle1 text-center">
+                        Certificate of Registration (CR)
+                    </div>
+                    </q-img>
+              </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Images: </label>
                   <ImageCarousel :ImgesID="imagesID"/>
@@ -188,6 +217,8 @@ export default {
         const v_price = ref(null);
         const v_specs = ref(null);
         const v_status = ref(null);
+        const or_uploaded = ref(null);
+        const cr_uploaded = ref(null);
 
         function getVehicles() {
           const barRef = bar.value;
@@ -218,6 +249,8 @@ export default {
             v_specs.value = data.row.specification;
             v_status.value = data.row.status;
             v_price.value = data.row.price;
+            or_uploaded.value = data.row.or_image;
+            cr_uploaded.value = data.row.cr_image;
 
             imagesID.value = []; //reset
             imagesID.value.push(img);
@@ -321,7 +354,10 @@ export default {
             v_type,
             v_price,
             v_name,
-            v_status
+            v_status,
+            upload_url: app.appContext.config.globalProperties.UploadUrl,
+            or_uploaded,
+            cr_uploaded
         }
     }
 }

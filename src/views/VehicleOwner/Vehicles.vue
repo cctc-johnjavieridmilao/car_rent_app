@@ -44,6 +44,24 @@
                     />
                 </div>
 
+                 <div class="col-lg-6 col-md-6 col-xs-12">
+                    <q-file
+                      v-model="or_image"
+                      label="Official Receipt (OR)"
+                      filled
+                      style="width: 100%"
+                  />
+                </div>
+
+                 <div class="col-lg-6 col-md-6 col-xs-12">
+                     <q-file
+                      v-model="cr_image"
+                      label="Certificate of Registration (CR)"
+                      filled
+                      style="width: 100%"
+                  />
+                </div>
+
                  <div class="col-lg-12 col-md-12 col-xs-12">
                     <input type="text" placeholder="Pickup Address" id="location"/>
                 </div>
@@ -232,6 +250,35 @@
                   <q-input type="textarea" filled v-model="v_specs" readonly />
               </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
+                   <label>Official Receipt (OR): </label>
+                   <q-img
+                        :src="upload_url + or_uploaded"
+                        spinner-color="white"
+                        style="height: 250px; width: 100%"
+                        img-class="my-custom-image"
+                        class="rounded-borders"
+                    >
+                    <div class="absolute-bottom text-subtitle1 text-center">
+                        Official Receipt (OR)
+                    </div>
+                    </q-img>
+              </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                   <label>Certificate of Registration (CR): </label>
+                   <q-img
+                        :src="upload_url + cr_uploaded"
+                        spinner-color="white"
+                        style="height: 250px; width: 100%"
+                        img-class="my-custom-image"
+                        class="rounded-borders"
+                    >
+                    <div class="absolute-bottom text-subtitle1 text-center">
+                        Certificate of Registration (CR)
+                    </div>
+                    </q-img>
+              </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Images: </label>
                   <ImageCarousel :ImgesID="imagesID"/>
               </div>
@@ -372,6 +419,10 @@ export default {
       const v_specs = ref(null);
       const v_status = ref(null);
       const vehicle_id = ref(null);
+      const or_image = ref(null);
+      const cr_image = ref(null);
+      const or_uploaded = ref(null);
+      const cr_uploaded = ref(null);
 
      const current_pos = ref({
         lat: 0,
@@ -422,19 +473,41 @@ export default {
     function OnVehiclerRegister() {
       const formdata = new FormData();
       const barRef = bar.value;
+      const prices = parseFloat(price.value);
+      let final_price = 0.00;
+      let percentage = 0.00;
 
-      formdata.append('upload_id', uploaded_ids.value.join(','));
-      formdata.append('vname', vname.value);
-      formdata.append('vtype', vtype.value);
-      formdata.append('price', price.value);
-      formdata.append('vspecs', vspecs.value);
-      formdata.append('ownerid', $q.sessionStorage.getItem('u_id'));
-      formdata.append('pick_up_address', document.getElementById('location').value);
-      formdata.append('lat', current_pos.value.lat);
-      formdata.append('lang', current_pos.value.lng);
+      if(prices <= 1000) {
+        percentage = (prices * 0.20);
+        final_price = (prices + percentage);
+      }
+       else if(prices <= 2499) {
+         percentage = (prices * 0.30);
+         final_price = (prices + percentage);
+       }
+       else if(prices <= 4000) {
+         percentage = (prices * 0.40);
+         final_price = (prices + percentage);
+       } 
+       else if(prices <= 10000 || prices > 10000) {
+         percentage = (prices * 0.50);
+         final_price = (prices + percentage);
+       }
 
-      isDisabled.value = true;
-      barRef.start();
+        formdata.append('upload_id', uploaded_ids.value.join(','));
+        formdata.append('vname', vname.value);
+        formdata.append('vtype', vtype.value);
+        formdata.append('price', parseFloat(final_price));
+        formdata.append('vspecs', vspecs.value);
+        formdata.append('ownerid', $q.sessionStorage.getItem('u_id'));
+        formdata.append('pick_up_address', document.getElementById('location').value);
+        formdata.append('lat', current_pos.value.lat);
+        formdata.append('lang', current_pos.value.lng);
+        formdata.append('cr_image', cr_image.value);
+        formdata.append('or_image', or_image.value);
+
+        isDisabled.value = true;
+        barRef.start();
 
         axios({
                 method: 'POST',
@@ -594,6 +667,8 @@ export default {
             v_specs.value = data.row.specification;
             v_status.value = data.row.status;
             v_price.value = data.row.price;
+            or_uploaded.value = data.row.or_image;
+            cr_uploaded.value = data.row.cr_image;
 
             imagesID.value = []; //reset
             imagesID.value.push(img);
@@ -647,7 +722,12 @@ export default {
       v_name,
       v_status,
       ViewData,
-      vehicle_id
+      vehicle_id,
+      or_image,
+      cr_image,
+      upload_url: app.appContext.config.globalProperties.UploadUrl,
+      or_uploaded,
+      cr_uploaded
     }
                 
    }
