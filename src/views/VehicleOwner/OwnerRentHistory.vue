@@ -140,7 +140,7 @@ import OwnerSidebar from '../../components/OwnerSidebar.vue';
 import ChatSupport from '../../components/ChatSupport.vue';
 import axios from 'axios';
 import ImageCarousel from '../../components/ImageCarousel.vue';
-//import { useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 
 export default {
   components: {
@@ -150,7 +150,7 @@ export default {
   },
     setup() {
        const app = getCurrentInstance();
-       //const $q = useQuasar();
+       const $q = useQuasar();
        const bar = ref(null)
        const url = app.appContext.config.globalProperties.ApiUrl;
        const ViewVehicleDialog = ref(false);
@@ -190,10 +190,11 @@ export default {
         barRef.start();
 
         formdata.append('status', 'COMPLETED');
+        formdata.append('u_id', $q.sessionStorage.getItem('u_id'));
             
             axios({
                   method: 'POST',
-                  url: url+'/GetTransactionsLists',
+                  url: url+'/GetTransactionsListsOwner',
                   data: formdata,
                   headers: { "Content-Type": "application/json" },
               })
