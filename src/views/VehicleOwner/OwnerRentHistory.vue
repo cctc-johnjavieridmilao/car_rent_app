@@ -2,7 +2,7 @@
     <div class="q-pa-md bg-grey-3">
        <OwnerSidebar />
 
-       <p style="font-size: 17px;"><b>RENT HSITORY</b></p>
+       <p style="font-size: 17px;"><b>RENT HISTORY</b></p>
 
        <q-table
                   title=""
