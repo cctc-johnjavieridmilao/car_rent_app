@@ -358,6 +358,20 @@
                   <label>Vehicle Specification: </label>
                   <q-input type="textarea" filled v-model="v_specs" readonly />
               </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                   <label>Customer Uploaded ID: </label>
+                   <q-img
+                        :src="upload_url + customer_valid_id"
+                        spinner-color="white"
+                        style="height: 250px; width: 100%"
+                        img-class="my-custom-image"
+                        class="rounded-borders"
+                    >
+                    <div class="absolute-bottom text-subtitle1 text-center">
+                        CUSTOMER VALID ID
+                    </div>
+                    </q-img>
+              </div>
            </div>
            
         </q-card-section>
@@ -407,6 +421,7 @@ export default {
       const v_type = ref(null);
       const v_price = ref(null);
       const v_specs = ref(null);
+      const customer_valid_id = ref(null);
 
        const columns_pending = [
             { name: 'recid', align: 'left', label: 'RecID', field: 'recid', sortable: true },
@@ -521,6 +536,7 @@ export default {
         v_name.value = data.row.vehicle_name;
         v_type.value = data.row.vehicle_type;
         v_price.value = data.row.price;
+        customer_valid_id.value = data.row.client_id;
         ViewVehicleDialog.value = true;
       }
 
@@ -707,7 +723,9 @@ export default {
       columns_onprogress,
       columns_return,
       rows_return,
-      filter_return
+      filter_return,
+      upload_url: app.appContext.config.globalProperties.UploadUrl,
+      customer_valid_id
     }
                 
    }
