@@ -89,6 +89,10 @@
                   <label>Vehicle Type: </label>
                   <q-input filled v-model="v_type" readonly />
               </div>
+                 <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Brand: </label>
+                  <q-input filled v-model="v_brand" readonly />
+              </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Price: </label>
                   <q-input filled v-model="v_price" readonly />
@@ -165,6 +169,7 @@ export default {
        const v_status = ref(null);
        const imagesID = ref([]);
        const customer_valid_id = ref(null);
+       const v_brand = ref(null);
 
        const columns = [
             { name: 'recid', align: 'left', label: 'RecID', field: 'recid', sortable: true },
@@ -221,6 +226,7 @@ export default {
         v_pickup_time.value = data.row.pickup_time;
         v_status.value = data.row.status;
         customer_valid_id.value = data.row.client_id;
+        v_brand.value = data.row.brand;
 
         imagesID.value = []; //reset
         imagesID.value.push(img);
@@ -249,7 +255,8 @@ export default {
         v_status,
         imagesID,
         upload_url: app.appContext.config.globalProperties.UploadUrl,
-        customer_valid_id
+        customer_valid_id,
+        v_brand
     }
                 
    }

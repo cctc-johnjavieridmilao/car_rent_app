@@ -28,7 +28,13 @@
                 <div class="col-lg-4 col-md-4 col-xs-12">
 
                     <q-select filled v-model="vtype" :options="vehiclesType" label="Vehicle Type" lazy-rules
-                       :rules="[ val => val && val.length > 0 || 'Please select your Vehicle type']" />
+                       :rules="[ val => val && val.length > 0 || 'Please Select Vehicle type']" />
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-12">
+
+                    <q-select filled v-model="vbrand" :options="BrandName" label="Brand" lazy-rules
+                       :rules="[ val => val && val.length > 0 || 'Please Select Brand']" />
                 </div>
 
                 <div class="col-lg-2 col-md-2 col-xs-12">
@@ -233,6 +239,10 @@
                   <label>Vehicle Name: </label>
                   <q-input filled v-model="v_name" readonly />
               </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Brand: </label>
+                  <q-input filled v-model="v_brand_name" readonly />
+              </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Vehicle Type: </label>
                   <q-input filled v-model="v_type" readonly />
@@ -423,6 +433,10 @@ export default {
       const cr_image = ref(null);
       const or_uploaded = ref(null);
       const cr_uploaded = ref(null);
+      const vbrand = ref(null);
+      const v_brand_name = ref(null);
+      const vehicleTypeArry = ref([]);
+      const BrandNameArry = ref([]);
 
      const current_pos = ref({
         lat: 0,
@@ -505,7 +519,8 @@ export default {
         formdata.append('lang', current_pos.value.lng);
         formdata.append('cr_image', cr_image.value);
         formdata.append('or_image', or_image.value);
-
+        formdata.append('vbrand', vbrand.value);
+        
         isDisabled.value = true;
         barRef.start();
 
@@ -669,11 +684,50 @@ export default {
             v_price.value = data.row.price;
             or_uploaded.value = data.row.or_image;
             cr_uploaded.value = data.row.cr_image;
+            v_brand_name.value = data.row.brand;
 
             imagesID.value = []; //reset
             imagesID.value.push(img);
             //ConfirmDialog.value = true;
             ViewVehicleDialog.value = true;
+        }
+
+        function getVehicleType() {
+
+          axios({
+              method: 'GET',
+              url: url+'/GetVehicleType',
+              headers: { "Content-Type": "application/json" },
+          })
+          .then(response => {
+              response.data.forEach(function(row) {
+                 vehicleTypeArry.value.push(row.VehicleType)
+              });
+          })
+          .catch(err =>  {
+              console.log(err);
+          }).finally(() => {
+              //barRef.stop();
+          })
+      }
+
+        function getBrandName() {
+
+            axios({
+                method: 'GET',
+                url: url+'/GetBrand',
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(response => {
+                response.data.forEach(function(row) {
+                 BrandNameArry.value.push(row.Brand_name)
+              });
+            })
+            .catch(err =>  {
+                console.log(err);
+            }).finally(() => {
+                //barRef.stop();
+            })
         }
 
     onMounted(() => {
@@ -687,6 +741,8 @@ export default {
            LoadMap();
            getPendingVechicles();
            getApprovedVechicles();
+           getBrandName();
+           getVehicleType();
      });
 
     return {
@@ -703,7 +759,8 @@ export default {
       isDisabled,
       uploader,
       reset,
-      vehiclesType: ['SEDAN','COUPE','SPORTS CAR','STATION WAGON','HATCHBACK','CONVERTIBLE','SUV','MINIVAN','PICKUP TRUCK','VAN','TRYCYCLE'],
+      vehiclesType: vehicleTypeArry,
+      BrandName: BrandNameArry,
       rows_for_pparoval,
       columns_for_pparoval,
       filter_pending,
@@ -727,7 +784,9 @@ export default {
       cr_image,
       upload_url: app.appContext.config.globalProperties.UploadUrl,
       or_uploaded,
-      cr_uploaded
+      cr_uploaded,
+      vbrand,
+      v_brand_name
     }
                 
    }

@@ -24,6 +24,9 @@
             {{ pickupAddress.substring(0, 15) + '...' }}
           </div>
         </div>
+        <div class="text-subtitle1">
+          <q-badge color="green" :label="'BRAND: ' + brand" />
+        </div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -33,14 +36,19 @@
         <div class="text-subtitle1">
           Price: &#8369; {{ price }}
         </div>
+        <br>
+        <div class="text-subtitle1">
+          <q-badge :color="status == 'AVAILABLE' ? 'primary' : 'red' " :label="status" />
+        </div>
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions>
         <q-btn flat round icon="event" />
-        <q-btn flat color="primary"  
-        @click="$emit('RentVehicle', {RecID: RecID, name: title, Description: Description, VehicleType: VehicleType, Owner: Owner, Price: price,pickupAddress: pickupAddress})">
+        <q-btn flat color="primary"
+         :disable="status == 'AVAILABLE' ? false : true"  
+         @click="$emit('RentVehicle', {RecID: RecID, name: title, Description: Description, VehicleType: VehicleType, Owner: Owner, Price: price,pickupAddress: pickupAddress,brand: brand})">
           RENT VEHICLE
         </q-btn>
 
@@ -88,7 +96,9 @@ export default {
         VehicleType: String,
         pickupAddress: String,
         lat: String,
-        lang: String
+        lang: String,
+        status: String,
+        brand: String
     },
     emits: ['RentVehicle','Viewmap'],
     setup(props) {

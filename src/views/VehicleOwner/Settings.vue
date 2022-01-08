@@ -72,6 +72,15 @@
                 />
                 </div>
 
+                 <div class="col-md-4 col-sm-12 col-xs-12">
+                   <q-file
+                    v-model="profile_pic"
+                    label="Upload Profile"
+                    filled
+                    style="width: 100%"
+                  />
+              </div>
+
                 <div>
                     <q-btn label="Save changes" type="submit" class="float-right" icon-right="login"  color="primary"/>
                     
@@ -154,6 +163,7 @@ export default {
      const newpass = ref(null);
      const confirmPassword = ref(null);
      const $q = useQuasar();
+     const profile_pic = ref(null);
 
       onMounted(() => {
         const formdata = new FormData();
@@ -188,6 +198,7 @@ export default {
         currentPass,
         newpass,
         confirmPassword,
+        profile_pic,
         tab: ref('account'),
          OnSubmit() {
            const formdata = new FormData();
@@ -198,6 +209,7 @@ export default {
            formdata.append('email', email.value);
            formdata.append('username', username.value);
            formdata.append('phoneNumber', phoneNumber.value);
+           formdata.append('profile_pic', profile_pic.value);
 
            axios({
                 method: 'POST',
@@ -212,6 +224,9 @@ export default {
                       textColor: 'white',
                       message: 'Successfully Updated'
                     })
+                     setTimeout(() => {
+                      window.location.reload();
+                    },1500)
                } else {
                   $q.notify({
                     color: 'negative',

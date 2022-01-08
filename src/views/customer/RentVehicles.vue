@@ -419,6 +419,10 @@
                   <label>Vehicle Type: </label>
                   <q-input filled v-model="v_type" readonly />
               </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Brand: </label>
+                  <q-input filled v-model="v_brand" readonly />
+              </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Price: </label>
                   <q-input filled v-model="v_price" readonly />
@@ -490,6 +494,7 @@ export default {
         const v_price = ref(null);
         const v_specs = ref(null);
         const customer_valid_id = ref(null);
+        const v_brand = ref(null);
 
        const columns_pending = [
             { name: 'recid', align: 'left', label: 'RecID', field: 'recid', sortable: true },
@@ -600,6 +605,7 @@ export default {
         v_type.value = data.row.vehicle_type;
         v_price.value = data.row.price;
         customer_valid_id.value = data.row.client_id;
+        v_brand.value = data.row.brand;
         ViewVehicleDialog.value = true;
       }
 
@@ -968,7 +974,8 @@ export default {
       ConfirmReturnedDialog,
       ReturnVehicle,
       upload_url: app.appContext.config.globalProperties.UploadUrl,
-      customer_valid_id
+      customer_valid_id,
+      v_brand
     }
                 
    }

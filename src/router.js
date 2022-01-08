@@ -10,6 +10,8 @@ import Usermanagement from './views/admin/Usermanagement.vue';
 import Vehiclemanagement from './views/admin/VehicleManagement.vue';
 import Transactionlist from './views/admin/TransactionList.vue';
 import AdminRentHistory from './views/admin/AdminRentHistory.vue';
+import BrandList from './views/admin/BrandList.vue';
+import VehicleTypeList from './views/admin/VehicleTypeList.vue';
 
 //OWNER
 import Owner from './views/VehicleOwner/Owner.vue';
@@ -83,6 +85,22 @@ const AdminsRoues = [
         path: '/admin/transactionlist',
         name: 'admin.transactionlist',
         component: Transactionlist,
+        meta: {
+            requiresAuth: true,
+          }
+    },
+    {
+        path: '/admin/brandlist',
+        name: 'admin.brandlist',
+        component: BrandList,
+        meta: {
+            requiresAuth: true,
+          }
+    },
+    {
+        path: '/admin/vehicletypelist',
+        name: 'admin.vehicletypelist',
+        component: VehicleTypeList,
         meta: {
             requiresAuth: true,
           }

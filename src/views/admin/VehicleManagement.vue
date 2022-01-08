@@ -83,6 +83,10 @@
                   <q-input filled v-model="v_name" readonly />
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Brand: </label>
+                  <q-input filled v-model="v_brand" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Vehicle Type: </label>
                   <q-input filled v-model="v_type" readonly />
               </div>
@@ -219,6 +223,7 @@ export default {
         const v_status = ref(null);
         const or_uploaded = ref(null);
         const cr_uploaded = ref(null);
+        const v_brand = ref(null);
 
         function getVehicles() {
           const barRef = bar.value;
@@ -251,6 +256,7 @@ export default {
             v_price.value = data.row.price;
             or_uploaded.value = data.row.or_image;
             cr_uploaded.value = data.row.cr_image;
+            v_brand.value = data.row.brand;
 
             imagesID.value = []; //reset
             imagesID.value.push(img);
@@ -355,6 +361,7 @@ export default {
             v_price,
             v_name,
             v_status,
+            v_brand,
             upload_url: app.appContext.config.globalProperties.UploadUrl,
             or_uploaded,
             cr_uploaded

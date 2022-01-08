@@ -37,7 +37,7 @@
          <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img :src="profile == null || profile == '' ? 'https://cdn.quasar.dev/img/boy-avatar.png' : upload_url + profile">
             </q-avatar>
              <div class="text-weight-bold">{{ fullname }}</div>
             <div>{{ usertype }}</div>
@@ -48,9 +48,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, getCurrentInstance, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import router from '../router';
+import axios from 'axios';
 
 export default {
     setup() {
@@ -101,12 +102,36 @@ export default {
     ];
 
     const $q = useQuasar();
+    const app = getCurrentInstance();
+    const url = app.appContext.config.globalProperties.ApiUrl;
+    const profile = ref(null);
+
+     onMounted(() => {
+        const formdata = new FormData();
+          formdata.append('uid', $q.sessionStorage.getItem('u_id'));
+            axios({
+                method: 'POST',
+                url: url+'/GetProfile',
+                data: formdata,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+            .then(response => {
+              const res = response.data[0];
+              profile.value = res.profile;
+
+            })
+            .catch(err =>  {
+                console.log(err);
+            });
+      });
 
     return {
         menuList,
         drawer: ref(false),
         fullname: $q.sessionStorage.getItem('fullname'),
         usertype: $q.sessionStorage.getItem('usertype'),
+        profile,
+        upload_url: app.appContext.config.globalProperties.UploadUrl,
         Logout(label) {
             if(label == 'Logout') {
                if(confirm('Are you sure you want to logout?') == false) {

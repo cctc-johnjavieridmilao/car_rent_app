@@ -19,7 +19,10 @@
         </div>
 
          <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-             <q-select filled v-model="vtype" :options="vehiclesType" @update:model-value="loadVehicles()" label="Search Vehicle Type" />
+             <q-select filled v-model="vtype" :options="vehiclesType" @update:model-value="loadVehicles()" label="Vehicle Type" />
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+             <q-select filled v-model="vbrand" :options="BrandName" @update:model-value="loadVehiclesByBrand()" label="Brand" />
         </div>
          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12" v-for="(item) in vehicle_list" :key="item.RecID">
 
@@ -37,6 +40,8 @@
               :pickupAddress="item.pick_up_address"
               :lat="item.lat"
               :lang="item.lang"
+              :status="item.vehicleStatus"
+              :brand="item.brand"
             />
             
          </div>
@@ -82,6 +87,10 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Vehicle Type: </label>
                   <q-input filled v-model="v_type" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Brand: </label>
+                  <q-input filled v-model="v_brand_name" readonly />
               </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Price: </label>
@@ -239,7 +248,11 @@ const current_pos = ref({
 const loader = new Loader({apiKey: GOOGE_MAPS_API_KEY, libraries: ['places','geometry']});
 const search = ref(null);
 const vtype = ref(null);
+const vbrand = ref(null);
 const RentDialog =  ref(false);
+const vehicleTypeArry = ref([]);
+const BrandNameArry = ref([]);
+const v_brand_name = ref(null);
 
 
 export default {
@@ -268,6 +281,7 @@ export default {
        v_specs.value = value.Description;
        vehicle_id.value = value.RecID;
        v_price.value = value.Price;
+       v_brand_name.value = value.brand;
 
        PrevieVehicleDialog.value = true;
     },
@@ -407,6 +421,44 @@ export default {
         
     }
 
+     function getVehicleType() {
+
+          axios({
+              method: 'GET',
+              url: url+'/GetVehicleType',
+              headers: { "Content-Type": "application/json" },
+          })
+          .then(response => {
+              response.data.forEach(function(row) {
+                 vehicleTypeArry.value.push(row.VehicleType)
+              });
+          })
+          .catch(err =>  {
+              console.log(err);
+          }).finally(() => {
+              //barRef.stop();
+          })
+      }
+
+        function getBrandName() {
+
+            axios({
+                method: 'GET',
+                url: url+'/GetBrand',
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(response => {
+                response.data.forEach(function(row) {
+                 BrandNameArry.value.push(row.Brand_name)
+              });
+            })
+            .catch(err =>  {
+                console.log(err);
+            }).finally(() => {
+                //barRef.stop();
+            })
+        }
+
      function showPosition(position) {
          current_pos.value.lat = position.coords.latitude;
          current_pos.value.lng = position.coords.longitude;
@@ -421,6 +473,8 @@ export default {
           }
 
       getVehicles();
+      getVehicleType();
+      getBrandName();
       
     });
 
@@ -474,6 +528,31 @@ export default {
         })
     }
 
+    function loadVehiclesByBrand() {
+        const barRef = bar.value;
+        const formdata = new FormData();
+        formdata.append('key', vbrand.value);
+
+        barRef.start();
+
+        vehicle_list.value.length = 0;
+     
+       axios({
+            method: 'POST',
+            url: url+'/SearchVehicles',
+            data: formdata,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(response => {
+          vehicle_list.value = response.data;
+        })
+        .catch(err =>  {
+            console.log(err);
+        }).finally(() => {
+           barRef.stop();
+        })
+    }
+
     return {
       vehicle_list,
       bar,
@@ -493,6 +572,7 @@ export default {
       SearchVehicle,
       search,
       loadVehicles,
+      loadVehiclesByBrand,
       vtype,
       pick_date,
       pick_time,
@@ -500,7 +580,10 @@ export default {
       RentDialog,
       ProceedToRent,
       Payment: ['PAYMENT UPON PICK-UP','PAYMENT UPON DELIVERY'],
-      vehiclesType: ['SEDAN','COUPE','SPORTS CAR','STATION WAGON','HATCHBACK','CONVERTIBLE','SUV','MINIVAN','PICKUP TRUCK','VAN','TRYCYCLE']
+      vehiclesType: vehicleTypeArry,
+      BrandName: BrandNameArry,
+      vbrand,
+      v_brand_name
     }
                 
    }

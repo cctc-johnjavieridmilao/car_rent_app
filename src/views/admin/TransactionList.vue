@@ -339,6 +339,10 @@
                   <q-input filled v-model="v_owner" readonly/>
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Customer: </label>
+                  <q-input filled v-model="v_customer" readonly/>
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Pickup Address: </label>
                   <q-input filled v-model="v_address" readonly />
               </div>
@@ -349,6 +353,10 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Vehicle Type: </label>
                   <q-input filled v-model="v_type" readonly />
+              </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Brand: </label>
+                  <q-input filled v-model="v_brand" readonly />
               </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Price: </label>
@@ -422,6 +430,8 @@ export default {
       const v_price = ref(null);
       const v_specs = ref(null);
       const customer_valid_id = ref(null);
+      const v_customer = ref(null);
+      const v_brand = ref(null);
 
        const columns_pending = [
             { name: 'recid', align: 'left', label: 'RecID', field: 'recid', sortable: true },
@@ -537,6 +547,8 @@ export default {
         v_type.value = data.row.vehicle_type;
         v_price.value = data.row.price;
         customer_valid_id.value = data.row.client_id;
+        v_customer.value = data.row.customer_name;
+        v_brand.value = data.row.brand;
         ViewVehicleDialog.value = true;
       }
 
@@ -725,7 +737,9 @@ export default {
       rows_return,
       filter_return,
       upload_url: app.appContext.config.globalProperties.UploadUrl,
-      customer_valid_id
+      customer_valid_id,
+      v_customer,
+      v_brand
     }
                 
    }
