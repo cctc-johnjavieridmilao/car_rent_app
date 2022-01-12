@@ -174,7 +174,11 @@ export default {
       }
 
         onMounted(() => {
-          getUsers();
+            getUsers();
+
+            setInterval(() => {
+              loadChat();
+            },1500);
         });
 
         return {

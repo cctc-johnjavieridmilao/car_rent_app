@@ -261,17 +261,24 @@
               </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
                    <label>Official Receipt (OR): </label>
-                   <q-img
+
+                   <!-- <image-zoom 
+                      :regular="upload_url + or_uploaded" 
+                      :zoom="upload_url + or_uploaded">				
+                    </image-zoom> -->
+                  <q-img
                         :src="upload_url + or_uploaded"
                         spinner-color="white"
                         style="height: 250px; width: 100%"
                         img-class="my-custom-image"
                         class="rounded-borders"
+                        @click="showImage"
                     >
                     <div class="absolute-bottom text-subtitle1 text-center">
                         Official Receipt (OR)
                     </div>
                     </q-img>
+                  
               </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12">

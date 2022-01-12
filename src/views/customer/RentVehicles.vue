@@ -773,6 +773,8 @@ export default {
         
         const formdata = new FormData();
         const barRef = bar.value;
+
+        alert(tran_id.value)
     
         formdata.append('id', tran_id.value);
 
