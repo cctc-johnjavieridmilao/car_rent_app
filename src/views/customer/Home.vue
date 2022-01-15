@@ -24,6 +24,10 @@
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
              <q-select filled v-model="vbrand" :options="BrandName" @update:model-value="loadVehiclesByBrand()" label="Brand" />
         </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+          <label>Price Range ({{ price_range.min }} to {{ price_range.max }})</label>
+             <q-range v-model="price_range" @change="loadVehiclesByPrize()" :min="0" :max="100000" snap label />
+        </div>
          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12" v-for="(item) in vehicle_list" :key="item.RecID">
 
             <RentCard
@@ -253,6 +257,7 @@ const RentDialog =  ref(false);
 const vehicleTypeArry = ref([]);
 const BrandNameArry = ref([]);
 const v_brand_name = ref(null);
+const price_range = ref({min: 0,max:0})
 
 
 export default {
@@ -553,6 +558,33 @@ export default {
         })
     }
 
+    function loadVehiclesByPrize() {
+
+       const barRef = bar.value;
+        const formdata = new FormData();
+        formdata.append('from_price', price_range.value.min);
+        formdata.append('to_price', price_range.value.max);
+
+        barRef.start();
+
+        vehicle_list.value.length = 0;
+     
+       axios({
+            method: 'POST',
+            url: url+'/SearchVehiclesByPrice',
+            data: formdata,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(response => {
+          vehicle_list.value = response.data;
+        })
+        .catch(err =>  {
+            console.log(err);
+        }).finally(() => {
+           barRef.stop();
+        })
+    }
+
     return {
       vehicle_list,
       bar,
@@ -573,6 +605,7 @@ export default {
       search,
       loadVehicles,
       loadVehiclesByBrand,
+      loadVehiclesByPrize,
       vtype,
       pick_date,
       pick_time,
@@ -583,7 +616,8 @@ export default {
       vehiclesType: vehicleTypeArry,
       BrandName: BrandNameArry,
       vbrand,
-      v_brand_name
+      v_brand_name,
+      price_range
     }
                 
    }

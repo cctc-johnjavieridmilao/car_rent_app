@@ -61,6 +61,13 @@
             skip-hijack
         />
 
+         <q-dialog v-model="image_viewer" full-width>
+      <q-card class="my-card">
+        <q-img :src="image_data" />
+      </q-card>
+    </q-dialog>
+
+     
      <q-dialog v-model="ViewVehicleDialog" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
 
@@ -110,6 +117,7 @@
                         style="height: 250px; width: 100%"
                         img-class="my-custom-image"
                         class="rounded-borders"
+                        @click="ViewImage(upload_url + or_uploaded)"
                     >
                     <div class="absolute-bottom text-subtitle1 text-center">
                         Official Receipt (OR)
@@ -125,6 +133,7 @@
                         style="height: 250px; width: 100%"
                         img-class="my-custom-image"
                         class="rounded-borders"
+                        @click="ViewImage(upload_url + cr_uploaded)"
                     >
                     <div class="absolute-bottom text-subtitle1 text-center">
                         Certificate of Registration (CR)
@@ -224,6 +233,8 @@ export default {
         const or_uploaded = ref(null);
         const cr_uploaded = ref(null);
         const v_brand = ref(null);
+        const image_data = ref(null);
+        const image_viewer = ref(false);
 
         function getVehicles() {
           const barRef = bar.value;
@@ -337,6 +348,12 @@ export default {
             });
         }
 
+         function ViewImage(image) {
+           image_data.value = image;
+           image_viewer.value = true;
+
+        }
+
         onMounted(() => {
             getVehicles();
         });
@@ -364,7 +381,10 @@ export default {
             v_brand,
             upload_url: app.appContext.config.globalProperties.UploadUrl,
             or_uploaded,
-            cr_uploaded
+            cr_uploaded,
+            image_data,
+            image_viewer,
+            ViewImage
         }
     }
 }

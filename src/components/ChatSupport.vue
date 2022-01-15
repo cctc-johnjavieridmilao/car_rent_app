@@ -2,7 +2,9 @@
     <div>
         
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-          <q-btn fab icon="chat" color="teal" @click="ChatDialog = true" size="50px"/>
+          <q-btn fab icon="chat" color="teal" @click="ChatDialog = true" size="50px">
+            <q-badge v-if="count_unseen > 0" flat class="shadow-12" color="red" floating>{{ count_unseen }}</q-badge>
+          </q-btn>
       </q-page-sticky>
 
 
@@ -84,6 +86,7 @@ export default {
         const text_msg = ref(null);
         const messages = ref([]);
         const $q = useQuasar();
+        const count_unseen = ref(0);
 
        function getUsers() {
         const formdata = new FormData();
@@ -173,12 +176,37 @@ export default {
          
       }
 
+      function loadChatUnSeen() {
+        const formdata = new FormData();
+
+        formdata.append('u_id', $q.sessionStorage.getItem('u_id'));
+
+        axios({
+            method: 'POST',
+            url: url+'/CountUnSeenMessage',
+            data: formdata,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(response => {
+           count_unseen.value = response.data.count;
+           //console.log( response.data)
+        })
+        .catch(err =>  {
+            console.log(err);
+        });
+
+      }
+
         onMounted(() => {
             getUsers();
 
             setInterval(() => {
               loadChat();
             },1500);
+
+            setInterval(() => {
+              loadChatUnSeen();
+            },500);
         });
 
         return {
@@ -187,10 +215,12 @@ export default {
             users,
             users_model,
             loadChat,
+            loadChatUnSeen,
             text_msg,
             SendMessage,
             messages,
-            userid: $q.sessionStorage.getItem('u_id')
+            userid: $q.sessionStorage.getItem('u_id'),
+            count_unseen
         }
     },
 }

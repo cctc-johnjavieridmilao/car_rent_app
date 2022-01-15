@@ -218,6 +218,13 @@
       />
 
 
+   <q-dialog v-model="image_viewer" full-width>
+      <q-card class="my-card">
+        <q-img :src="image_data" />
+      </q-card>
+    </q-dialog>
+
+
            <q-dialog v-model="ViewVehicleDialog" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
 
@@ -262,17 +269,13 @@
                <div class="col-md-12 col-sm-12 col-xs-12">
                    <label>Official Receipt (OR): </label>
 
-                   <!-- <image-zoom 
-                      :regular="upload_url + or_uploaded" 
-                      :zoom="upload_url + or_uploaded">				
-                    </image-zoom> -->
                   <q-img
                         :src="upload_url + or_uploaded"
                         spinner-color="white"
                         style="height: 250px; width: 100%"
                         img-class="my-custom-image"
                         class="rounded-borders"
-                        @click="showImage"
+                        @click="ViewImage(upload_url + or_uploaded)"
                     >
                     <div class="absolute-bottom text-subtitle1 text-center">
                         Official Receipt (OR)
@@ -289,6 +292,7 @@
                         style="height: 250px; width: 100%"
                         img-class="my-custom-image"
                         class="rounded-borders"
+                        @click="ViewImage(upload_url + cr_uploaded)"
                     >
                     <div class="absolute-bottom text-subtitle1 text-center">
                         Certificate of Registration (CR)
@@ -314,6 +318,8 @@
 
       </q-card>
     </q-dialog>
+
+ 
 
     </div>
 
@@ -349,6 +355,7 @@ import { useQuasar, Notify } from 'quasar';
 import {Loader} from '@googlemaps/js-api-loader';
 import ChatSupport from '../../components/ChatSupport.vue';
 import ImageCarousel from '../../components/ImageCarousel.vue';
+//import InnerImageZoom from 'vue-inner-image-zoom';
 
 //const GOOGE_MAPS_API_KEY = 'AIzaSyBnWBlqxn09y1gQCSf0mCrGgtvkExTIyJY';
 const GOOGE_MAPS_API_KEY = 'AIzaSyDiKmRh2vEg2hiV1ZIVeyNlxPjVegpChvE&amp';
@@ -444,6 +451,8 @@ export default {
       const v_brand_name = ref(null);
       const vehicleTypeArry = ref([]);
       const BrandNameArry = ref([]);
+      const image_data = ref(null);
+      const image_viewer = ref(false);
 
      const current_pos = ref({
         lat: 0,
@@ -737,6 +746,12 @@ export default {
             })
         }
 
+        function ViewImage(image) {
+           image_data.value = image;
+           image_viewer.value = true;
+
+        }
+
     onMounted(() => {
 
           if (navigator.geolocation) {
@@ -793,7 +808,10 @@ export default {
       or_uploaded,
       cr_uploaded,
       vbrand,
-      v_brand_name
+      v_brand_name,
+      image_data,
+      image_viewer,
+      ViewImage
     }
                 
    }

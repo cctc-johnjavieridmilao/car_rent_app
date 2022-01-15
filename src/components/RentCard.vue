@@ -2,7 +2,7 @@
     <div>
         <q-card class="my-card">
          <q-carousel swipeable animated v-model="slide" thumbnails infinite>
-            <q-carousel-slide v-for="(image, index) in images_array" :key="image.RecID" :name="index" :img-src="upload_url + image.image_name" />
+            <q-carousel-slide v-for="(image, index) in images_array" :key="image.RecID" :name="index"  @click="ViewImage(upload_url + image.image_name)" :img-src="upload_url + image.image_name" />
       </q-carousel>
 
       <q-card-section>
@@ -76,6 +76,13 @@
         </div>
       </q-slide-transition>
     </q-card>
+
+
+    <q-dialog v-model="image_viewer" full-width>
+      <q-card class="my-card">
+        <q-img :src="image_data" />
+      </q-card>
+    </q-dialog>
     </div>
 </template>
 
@@ -106,6 +113,8 @@ export default {
         const images_array = ref([]);
         const app = getCurrentInstance();
         const url = app.appContext.config.globalProperties.ApiUrl;
+        const image_data = ref(null);
+        const image_viewer = ref(false);
 
         function getImages() {
             const formdata = new FormData();
@@ -124,6 +133,12 @@ export default {
             });
         }
 
+        function ViewImage(image) {
+           image_data.value = image;
+           image_viewer.value = true;
+
+        }
+
         onMounted(() => {
            getImages();
         });
@@ -132,7 +147,10 @@ export default {
             slide: ref(0),
             expanded: ref(false),
             images_array,
-            upload_url: app.appContext.config.globalProperties.UploadUrl
+            upload_url: app.appContext.config.globalProperties.UploadUrl,
+            image_data,
+            image_viewer,
+            ViewImage
         }
     },
 }
