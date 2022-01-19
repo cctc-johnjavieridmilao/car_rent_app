@@ -3,7 +3,7 @@
         <q-header elevated class="bg-deep-purple-7">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-          <q-toolbar-title style="font-size: 18px;">Carku: Rental Vehicle</q-toolbar-title>
+          <q-toolbar-title style="font-size: 18px;">Rent N' Go</q-toolbar-title>
            <q-btn flat @click="Logout('Logout')" round dense icon="logout" />
         </q-toolbar>
       </q-header>
