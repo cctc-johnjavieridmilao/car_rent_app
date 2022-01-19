@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
           <label>Price Range ({{ price_range.min }} to {{ price_range.max }})</label>
-             <q-range v-model="price_range" @change="loadVehiclesByPrize()" :min="0" :max="100000" snap label />
+             <q-range v-model="price_range" @change="loadVehiclesByPrize()" :min="0" :max="3000" snap label />
         </div>
          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12" v-for="(item) in vehicle_list" :key="item.RecID">
 
