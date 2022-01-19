@@ -6,12 +6,12 @@
 
         <q-card>
         
-        <q-card-section class="text-white" style="background: rgba(38,38,112,1)">
+        <q-card-section class="text-white" >
             <!-- <div class="text-h6">Carku: Rental Vehicle</div> !-->
              <q-img
-                src="../assets/carku_logo.png"
+                src="../assets/car_rent_logo_new.jpg"
                 loading="lazy"
-                height="140px"
+                height="200px"
                 style="max-width: 150px;margin-left: 110px"
               />
             <div class="text-subtitle2">Sign-in your account here..</div>
