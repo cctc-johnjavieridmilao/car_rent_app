@@ -426,6 +426,10 @@
                   <label> Address: </label>
                   <q-input filled v-model="v_address" readonly />
               </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Drop-off Address: </label>
+                  <q-input filled v-model="v_dropoff_address" readonly />
+              </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Vehicle Name: </label>
                   <q-input filled v-model="v_name" readonly />
@@ -509,6 +513,7 @@ export default {
       const ViewVehicleDialog = ref(false);
       const v_owner = ref(null);
       const v_address = ref(null);
+      const v_dropoff_address = ref(null);
       const v_name = ref(null);
       const v_type = ref(null);
       const v_price = ref(null);
@@ -914,6 +919,7 @@ export default {
           v_customer.value = data.row.customer_name;
           v_owner_name.value = data.row.owner_name;
           v_brand.value = data.row.brand;
+          v_dropoff_address.value = data.row.client_dropoff_address;
           ViewVehicleDialog.value = true;
       }
 
@@ -974,7 +980,8 @@ export default {
       customer_valid_id,
       v_customer,
       v_owner_name,
-      v_brand
+      v_brand,
+      v_dropoff_address
     }
                 
    }

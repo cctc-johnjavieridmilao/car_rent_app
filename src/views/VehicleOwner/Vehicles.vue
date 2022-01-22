@@ -389,7 +389,7 @@ export default {
 
         axios({
               method: 'POST',
-              url: 'https://rent-app-api.online/Home/UploadFile',
+              url: 'http://localhost:8080/CAR_RENT/api/Home/UploadFile',
               data: formdata,
               headers: { "Content-Type": "multipart/form-data" },
           })

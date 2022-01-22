@@ -165,6 +165,12 @@
 
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <q-select filled v-model="payment_type" :options="Payment" label="Payment Method"/>
+                  <br>
+              </div>
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                  <q-input filled v-model="drop_off_address" label="Drop off address"/>
+                  <br>
               </div>
 
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -241,6 +247,7 @@ const v_price = ref(null);
 const pick_date = ref(null);
 const pick_time = ref(null);
 const payment_type = ref(null);
+const drop_off_address = ref(null);
 const customer_valid_id = ref(null);
 
 const mapDiv = ref(null);
@@ -384,11 +391,12 @@ export default {
       formdata.append('pickup_address', address.value);
       formdata.append('vehicle_specs', v_specs.value);
       formdata.append('price', v_price.value);
-
+      
       formdata.append('pick_date', pick_date.value);
       formdata.append('pick_time', pick_time.value);
       formdata.append('payment_type', payment_type.value);
       formdata.append('customer_valid_id', customer_valid_id.value);
+      formdata.append('drop_off_address', drop_off_address.value);
       
 
        barRef.start();
@@ -617,7 +625,8 @@ export default {
       BrandName: BrandNameArry,
       vbrand,
       v_brand_name,
-      price_range
+      price_range,
+      drop_off_address
     }
                 
    }

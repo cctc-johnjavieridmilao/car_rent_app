@@ -69,6 +69,10 @@
                   <q-input filled v-model="v_address" readonly />
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label> Drop-off Address: </label>
+                  <q-input filled v-model="v_dropoff_address" readonly />
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Pickup Date: </label>
                   <q-input filled v-model="v_pickup_date" readonly />
               </div>
@@ -160,6 +164,7 @@ export default {
        const ViewVehicleDialog = ref(false);
        const v_owner = ref(null);
        const v_address = ref(null);
+       const v_dropoff_address = ref(null);
        const v_name = ref(null);
        const v_type = ref(null);
        const v_price = ref(null);
@@ -227,6 +232,7 @@ export default {
         v_status.value = data.row.status;
         customer_valid_id.value = data.row.client_id;
         v_brand.value = data.row.brand;
+        v_dropoff_address.value = data.row.client_dropoff_address;
 
         imagesID.value = []; //reset
         imagesID.value.push(img);
@@ -256,7 +262,8 @@ export default {
         imagesID,
         upload_url: app.appContext.config.globalProperties.UploadUrl,
         customer_valid_id,
-        v_brand
+        v_brand,
+        v_dropoff_address
     }
                 
    }

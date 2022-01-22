@@ -72,6 +72,10 @@
                   <label>Address: </label>
                   <q-input filled v-model="v_address" readonly />
               </div>
+               <div class="col-md-12 col-sm-12 col-xs-12">
+                  <label>Drop-off Address: </label>
+                  <q-input filled v-model="v_dropoff_address" readonly />
+              </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <label>Pickup Date: </label>
                   <q-input filled v-model="v_pickup_date" readonly />
@@ -175,6 +179,7 @@ export default {
        const customer_valid_id = ref(null);
        const v_customer = ref(null);
        const v_brand = ref(null);
+       const v_dropoff_address = ref(null);
 
        const columns = [
             { name: 'recid', align: 'left', label: 'RecID', field: 'recid', sortable: true },
@@ -232,6 +237,7 @@ export default {
         customer_valid_id.value = data.row.client_id;
         v_customer.value = data.row.customer_name;
         v_brand.value = data.row.brand;
+        v_dropoff_address.value = data.row.client_dropoff_address;
 
         imagesID.value = []; //reset
         imagesID.value.push(img);
@@ -262,7 +268,8 @@ export default {
         upload_url: app.appContext.config.globalProperties.UploadUrl,
         customer_valid_id,
         v_customer,
-        v_brand
+        v_brand,
+        v_dropoff_address
     }
                 
    }
