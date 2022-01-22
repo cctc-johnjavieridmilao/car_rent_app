@@ -419,11 +419,11 @@
                   <q-input filled v-model="v_pickup_time" readonly />
               </div>
                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>PaymentType: </label>
+                  <label>PaymentMethod: </label>
                   <q-input filled v-model="v_paymenttype" readonly />
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Pickup Address: </label>
+                  <label> Address: </label>
                   <q-input filled v-model="v_address" readonly />
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">

@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
           <label>Price Range ({{ price_range.min }} to {{ price_range.max }})</label>
-             <q-range v-model="price_range" @change="loadVehiclesByPrize()" :min="0" :max="3000" snap label />
+             <q-range v-model="price_range" @change="loadVehiclesByPrize()" :min="0" :max="1000" snap label />
         </div>
          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12" v-for="(item) in vehicle_list" :key="item.RecID">
 
@@ -64,14 +64,14 @@
      <q-dialog v-model="PrevieVehicleDialog" full-width>
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section>
-          <div class="text-h6">FOR PICKUP</div>
+          <div class="text-h6">VEHICLE DETAILS:</div>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-section>
+        <!-- <q-card-section>
           <div class="text-h6" style="font-size: 16px;">VEHICLE DETAILS: </div>
-        </q-card-section>
+        </q-card-section> -->
 
         <q-card-section style="max-height: 50vh; margin-top: -12px;" class="scroll">
 
@@ -81,7 +81,7 @@
                   <q-input filled v-model="owner" readonly/>
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
-                  <label>Pickup Address: </label>
+                  <label>Address: </label>
                   <q-input filled v-model="address" readonly />
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -164,7 +164,7 @@
               </div>
 
               <div class="col-md-12 col-sm-12 col-xs-12">
-                  <q-select filled v-model="payment_type" :options="Payment" label="Payment Type"/>
+                  <q-select filled v-model="payment_type" :options="Payment" label="Payment Method"/>
               </div>
 
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -612,7 +612,7 @@ export default {
       payment_type,
       RentDialog,
       ProceedToRent,
-      Payment: ['PAYMENT UPON PICK-UP','PAYMENT UPON DELIVERY'],
+      Payment: ['PAYMENT UPON PICK-UP','PAYMENT UPON DROP OFF'],
       vehiclesType: vehicleTypeArry,
       BrandName: BrandNameArry,
       vbrand,
