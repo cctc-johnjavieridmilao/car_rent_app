@@ -15,9 +15,9 @@ const app = createApp(App);
 //http://localhost:8080/CAR_RENT/api/Home
 //http://localhost:8080/CAR_RENT/api/public/uploads/
 
-app.config.globalProperties.ApiUrl = 'http://localhost:8080/CAR_RENT/api/Home';
+app.config.globalProperties.ApiUrl = 'https://rent-app-api.online/Home';
 
-app.config.globalProperties.UploadUrl = 'http://localhost:8080/CAR_RENT/api/public/uploads/';
+app.config.globalProperties.UploadUrl = 'https://rent-app-api.online/public/uploads/';
 
 // app.use(Viewer, {
 //     defaultOptions: {
