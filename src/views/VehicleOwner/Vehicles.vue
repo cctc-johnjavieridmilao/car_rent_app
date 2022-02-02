@@ -385,11 +385,11 @@ export default {
          }
 
          //https://rent-app-api.online/Home/UploadFile
-         //http://localhost:8080/CAR_RENT/api/Home/UploadFile
+         //http://localhost:8080/CAR_RENT/api/Home/UploadFile++
 
         axios({
               method: 'POST',
-              url: 'https://rent-app-api.online/Home/UploadFile',
+              url: 'http://arkila-api.online/Home/UploadFile',
               data: formdata,
               headers: { "Content-Type": "multipart/form-data" },
           })
